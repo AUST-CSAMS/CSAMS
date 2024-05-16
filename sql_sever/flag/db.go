@@ -7,7 +7,7 @@ import (
 
 func Makemigrations() {
 	var err error
-	// 生成四张表的表结构
+	// 生成表的表结构
 	err = global.DB.Set("gorm:table_options", "ENGINE=InnoDB").
 		AutoMigrate(
 			&models.AssociationModel{},

@@ -1,6 +1,7 @@
 package models
 
 type UserModel struct {
+	MODEL
 	StudentStaffId uint   `gorm:"primaryKey" json:"student_staff_id"`
 	Password       string `gorm:"size:128" json:"password"`
 	Name           string `gorm:"size:16" json:"name"`

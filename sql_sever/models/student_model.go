@@ -1,8 +1,9 @@
 package models
 
 type StudentModel struct {
+	MODEL
 	StudentId             string    `gorm:"primaryKey" json:"student_id"`
-	UserModel             UserModel `gorm:"foreignKey:StudentId" json:"user_model"`
+	UserModel             UserModel `gorm:"foreignKey:StudentStaffId;references:StudentId;" json:"user_model"`
 	College               string    `gorm:"size:32" json:"college"`
 	Major                 string    `gorm:"size:16" json:"major"`
 	ContactInformation    uint      `json:"contact_information"`

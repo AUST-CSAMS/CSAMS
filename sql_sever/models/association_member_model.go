@@ -3,7 +3,8 @@ package models
 import "time"
 
 type AssociationMemberModel struct {
-	AssociationModel           AssociationModel `gorm:"foreignKey:AssociationId" json:"AssociationModel"`
+	AssociationId              uint             `json:"association_id"`
+	AssociationModel           AssociationModel `gorm:"foreignKey:AssociationId;references:AssociationId;" json:"AssociationModel"`
 	StudentId                  uint             `json:"student_id"`
 	MemberName                 string           `gorm:"size:16" json:"member_name"`
 	AssociationPosition        string           `gorm:"size:16" json:"association_position"`

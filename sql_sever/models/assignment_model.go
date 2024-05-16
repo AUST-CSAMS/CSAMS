@@ -1,7 +1,8 @@
 package models
 
 type Assignment struct {
-	ActivityAssignmentLinkModel []ActivityAssignmentLinkModel `gorm:"foreignKey:AssignmentId" json:"activity_assignment_link_model"`
+	AssignmentId                uint                          `json:"assignment_id"`
+	ActivityAssignmentLinkModel []ActivityAssignmentLinkModel `gorm:"foreignKey:AssignmentId;references:AssignmentId;" json:"activity_assignment_link_model"`
 	Content                     string                        `json:"content"`
 	Figure1                     string                        `gorm:"size:256" json:"figure_1"`
 	Figure2                     string                        `gorm:"size:256" json:"figure_2"`
