@@ -21,17 +21,17 @@ type UserRegisterRequest struct {
 }
 
 func (UserApi) UserRegisterView(c *gin.Context) {
-	var rr UserRegisterRequest
-	if err := c.ShouldBindJSON(&rr); err != nil {
+	var cr UserRegisterRequest
+	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
-	err := user_ser.UserService{}.Register(rr.ID, rr.Password, rr.Name, rr.Age, rr.Gender, rr.Role, rr.Major, rr.Tel)
+	err := user_ser.UserService{}.Register(cr.ID, cr.Password, cr.Name, cr.Age, cr.Gender, cr.Role, cr.Major, cr.Tel)
 	if err != nil {
 		log.Print(err)
 		res.FailWithMessage(err.Error(), c)
 		return
 	}
-	res.OkWithMessage(fmt.Sprintf("用户%s创建成功!", rr.Name), c)
+	res.OkWithMessage(fmt.Sprintf("用户%s创建成功!", cr.Name), c)
 	return
 }

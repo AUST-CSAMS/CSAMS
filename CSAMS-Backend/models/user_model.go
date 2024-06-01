@@ -14,7 +14,6 @@ type UserModel struct {
 	Tel               uint64                 `json:"tel"`
 	Integrity         int                    `json:"integrity"`
 	Score             uint64                 `json:"score"`
-	Token             string                 `gorm:"size:256" json:"token"`
 	AssociationID     *uint64                `json:"association_id"`
 	AssociationMember AssociationMemberModel `gorm:"foreignKey:AssociationID" json:"-"`
 	Assignments       []AssignmentModel      `gorm:"foreignKey:UserID" json:"-"`

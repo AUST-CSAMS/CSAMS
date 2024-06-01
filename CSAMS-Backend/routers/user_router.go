@@ -14,4 +14,5 @@ func (router RouterGroup) UserRouter() {
 	//使用session中间件
 	router.Use(sessions.Sessions("sessionid", store))
 	router.POST("register", app.UserRegisterView)
+	router.POST("login", app.UserLoginView)
 }

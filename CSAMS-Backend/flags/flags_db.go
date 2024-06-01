@@ -21,6 +21,7 @@ func DB() {
 			&models.UserModel{},
 			&models.AssociationModel{},
 			&models.AssociationMemberModel{},
+			&models.LoginDataModel{},
 		)
 	if err != nil {
 		log.Fatalf("[ error ] 生成数据库表结构失败")
