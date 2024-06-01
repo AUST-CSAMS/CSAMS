@@ -13,12 +13,12 @@ func PrintSystem() {
 	if ip == "0.0.0.0" {
 		ipList := GetIPList()
 		for _, i := range ipList {
-			log.Println("CSAMS-Backend 运行在： http://%s:%d/api", i, port)
-			log.Println("CSAMS-Backend api文档 运行在： http://%s:%d/swagger/index.html#", i, port)
+			log.Printf("CSAMS-Backend 运行在： http://%s:%d/api", i, port)
+			log.Printf("CSAMS-Backend api文档 运行在： http://%s:%d/swagger/index.html#", i, port)
 		}
 	} else {
-		log.Println("CSAMS-Backend 运行在： http://%s:%d/api", ip, port)
-		log.Println("CSAMS-Backend api文档 运行在： http://%s:%d/swagger/index.html#", ip, port)
+		log.Printf("CSAMS-Backend 运行在： http://%s:%d/api", ip, port)
+		log.Printf("CSAMS-Backend api文档 运行在： http://%s:%d/swagger/index.html#", ip, port)
 	}
 
 }

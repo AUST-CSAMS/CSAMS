@@ -11,7 +11,7 @@ type ActivityModel struct {
 	Introduction        string                     `gorm:"size:255" json:"introduction"`
 	Image               string                     `gorm:"size:256" json:"image"`
 	ResponsiblePerson   string                     `gorm:"size:16" json:"responsible_person"`
-	Tel                 string                     `json:"tel"`
+	Tel                 uint64                     `json:"tel"`
 	Score               uint64                     `json:"score"`
 	Assignments         []AssignmentModel          `gorm:"foreignKey:ActivityID" json:"-"`
 	ActivityAssociation []ActivityAssociationModel `gorm:"foreignKey:ActivityID" json:"-"`

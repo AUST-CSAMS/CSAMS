@@ -6,8 +6,8 @@ type Role int
 
 const (
 	PermissionTeacher      Role = 1 // 教师
-	PermissionStudentAdmin Role = 2 // 学生管理员
-	PermissionStudent      Role = 3 // 学生
+	PermissionStudent      Role = 2 // 学生
+	PermissionStudentAdmin Role = 3 // 学生管理员
 )
 
 func (s Role) MarshalJSON() ([]byte, error) {
@@ -19,10 +19,10 @@ func (s Role) String() string {
 	switch s {
 	case PermissionTeacher:
 		str = "教师"
-	case PermissionStudentAdmin:
-		str = "学生管理员"
 	case PermissionStudent:
 		str = "学生"
+	case PermissionStudentAdmin:
+		str = "学生管理员"
 	default:
 		str = "其他"
 	}
