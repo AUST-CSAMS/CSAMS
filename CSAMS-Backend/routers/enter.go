@@ -26,5 +26,8 @@ func InitRouter() *gin.Engine {
 	routerGroupApp := RouterGroup{apiRouterGroup}
 	// 系统配置api
 	routerGroupApp.UserRouter()
+	routerGroupApp.AssociationRouter()
+	routerGroupApp.ActivityRouter()
+	routerGroupApp.AssignmentRouter()
 	return router
 }
