@@ -42,9 +42,9 @@ func (UserApi) UserLoginView(c *gin.Context) {
 	}
 	// 登录成功，生成token
 	token, err := jwts.GenToken(jwts.JwtPayLoad{
-		ID:   userModel.ID,
-		Name: userModel.Name,
-		Role: int(userModel.Role),
+		UserID: userModel.ID,
+		Name:   userModel.Name,
+		Role:   int(userModel.Role),
 	})
 	if err != nil {
 		log.Print(err)
