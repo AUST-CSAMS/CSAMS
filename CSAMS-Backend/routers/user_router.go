@@ -2,6 +2,7 @@ package routers
 
 import (
 	"CSAMS-Backend/api"
+	"CSAMS-Backend/middleware"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 )
@@ -15,4 +16,5 @@ func (router RouterGroup) UserRouter() {
 	router.Use(sessions.Sessions("sessionid", store))
 	router.POST("register", app.UserRegisterView)
 	router.POST("login", app.UserLoginView)
+	router.POST("logout", middleware.JwtAuth(), app.LogoutView)
 }

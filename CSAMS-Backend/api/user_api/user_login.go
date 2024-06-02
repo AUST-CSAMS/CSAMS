@@ -12,7 +12,7 @@ import (
 )
 
 type UserLoginRequest struct {
-	ID       uint64 `json:"id" binding:"required" msg:"请输入学工号"`     // 学工号
+	ID       uint64 `json:"id" binding:"required" msg:"请输入学工号"`      // 学工号
 	Password string `json:"password" binding:"required" msg:"请输入密码"` // 密码
 }
 
@@ -28,16 +28,16 @@ func (UserApi) UserLoginView(c *gin.Context) {
 	err = global.DB.Take(&userModel, "id = ?", cr.ID).Error
 	if err != nil {
 		// 对内
-		log.Print("用户名不存在")
+		log.Print("学工号不存在")
 		//对外
-		res.FailWithMessage("用户名或密码错误", c)
+		res.FailWithMessage("学工号或密码错误", c)
 		return
 	}
 	// 校验密码
 	isCheck := pwd.CheckPwd(userModel.Password, cr.Password)
 	if !isCheck {
-		log.Print("用户名密码错误")
-		res.FailWithMessage("用户名或密码错误", c)
+		log.Print("学工号密码错误")
+		res.FailWithMessage("学工号或密码错误", c)
 		return
 	}
 	// 登录成功，生成token

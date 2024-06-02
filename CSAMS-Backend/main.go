@@ -14,7 +14,9 @@ func main() {
 	core.InitConf()
 	// 连接数据库
 	global.DB = core.InitGorm()
-	// 命令行参数绑定
+	// 连接redis
+	global.Redis = core.ConnectRedis()
+	// 命令行参数绑定+
 	option := flags.Parse()
 	if option.Run() {
 		return
