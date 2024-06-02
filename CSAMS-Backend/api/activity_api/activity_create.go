@@ -71,8 +71,8 @@ func createActivity(id uint64, activityName, startTime, endTime, location, intro
 		Introduction: introduction,
 		//	Image:             image,
 		ResponsiblePerson: responsiblePerson,
-		Tel:               tel,
-		Score:             score,
+		//	Tel:               tel,
+		Score: score,
 	}).Error
 	if err != nil {
 		return err
