@@ -2,11 +2,8 @@ package image_ser
 
 import (
 	"CSAMS-Backend/global"
-	"CSAMS-Backend/models"
 	"CSAMS-Backend/utils"
 	"fmt"
-	"io"
-	"log"
 	"mime/multipart"
 	"path"
 	"strings"
@@ -50,31 +47,9 @@ func (ImageService) ImageUploadService(file *multipart.FileHeader) (res FileUplo
 		res.Msg = fmt.Sprintf("图片大小超过设定大小，当前大小为:%.2fMB， 设定大小为：%dMB ", size, global.Config.Upload.Size)
 		return
 	}
-	// 读取文件内容 hash
-	fileObj, err := file.Open()
-	if err != nil {
-		log.Print(err)
-	}
-	byteData, err := io.ReadAll(fileObj)
-	imageHash := utils.Md5(byteData)
-	// 去数据库中查这个图片是否存在
-	var bannerModel models.BannerModel
-	err = global.DB.Take(&bannerModel, "hash = ?", imageHash).Error
-	if err == nil {
-		res.Msg = "图片已存在"
-		res.FileName = bannerModel.Path
-		return
-	}
-
 	res.Msg = "图片上传成功"
 	res.IsSuccess = true
 	filePath = "/" + filePath
 
-	// 图片入库
-	global.DB.Create(&models.BannerModel{
-		Path: filePath,
-		Hash: imageHash,
-		Name: fileName,
-	})
 	return
 }
