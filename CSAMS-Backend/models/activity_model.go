@@ -16,7 +16,7 @@ type ActivityModel struct {
 	ResponsiblePerson   string                     `gorm:"size:16" json:"responsible_person"`
 	Tel                 uint64                     `json:"tel"`
 	Score               uint64                     `json:"score"`
-	Limit               []ctype.Major              `gorm:"type:json" json:"limit"`
+	Limit               ctype.MajorArray           `gorm:"type:json" json:"limit"`
 	Assignments         []AssignmentModel          `gorm:"foreignKey:ActivityID" json:"-"`
 	ActivityAssociation []ActivityAssociationModel `gorm:"foreignKey:ActivityID" json:"-"`
 	ActivityLog         []ActivityLogModel         `gorm:"foreignKey:ActivityID" json:"-"`
