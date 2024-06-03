@@ -6,7 +6,7 @@ type AssociationModel struct {
 	ID              uint64          `gorm:"primaryKey" json:"id"`
 	AssociationName string          `gorm:"size:32" json:"association_name"`
 	CreateAt        time.Time       `json:"create_at"`
-	TeacherName     string          `gorm:"size:16" json:"teacher"`
+	TeacherName     string          `gorm:"size:16" json:"teacher_name"`
 	TeacherID       uint64          `json:"teacher_id"`
 	Teacher         UserModel       `gorm:"foreignKey:TeacherID" json:"-"`
 	President       string          `gorm:"size:16" json:"president"`

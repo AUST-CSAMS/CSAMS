@@ -11,7 +11,7 @@ import (
 const Avatar = "/uploads/avatar/default.png"
 const Integrity = 100
 
-func (UserService) Register(id uint64, password, name string, age int, gender string, role ctype.Role, major string, tel uint64) error {
+func (UserService) Register(id uint64, password, name string, age int, gender string, role ctype.Role, major ctype.Major, tel uint64) error {
 	// 判断用户名是否存在
 	var userModel models.UserModel
 	err := global.DB.Take(&userModel, "id = ?", id).Error

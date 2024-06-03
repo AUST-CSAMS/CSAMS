@@ -3,6 +3,7 @@ package activity_api
 import (
 	"CSAMS-Backend/global"
 	"CSAMS-Backend/models"
+	"CSAMS-Backend/models/ctype"
 	"CSAMS-Backend/models/res"
 	"CSAMS-Backend/utils/jwts"
 	"fmt"
@@ -12,14 +13,15 @@ import (
 )
 
 type ActivityCreateRequest struct {
-	ID           uint64 `json:"id" binding:"required" msg:"请输入活动id"`            // 活动id
-	ActivityName string `json:"activity_name" binding:"required" msg:"请输入活动名称"` // 活动名称
-	StartTime    string `json:"startTime" binding:"required" msg:"请输入开始时间"`     // 开始时间
-	EndTime      string `json:"endTime" binding:"required" msg:"请输入结束时间"`       // 结束时间
-	Location     string `json:"location" binding:"required" msg:"请输入活动地点"`      // 活动地点
-	Introduction string `json:"introduction" binding:"required" msg:"请输入活动简介"`  // 活动简介
-	Image        string `json:"image" binding:"required"`                       //活动图片
-	Score        uint64 `json:"score" binding:"required" msg:"请输入活动积分"`         // 活动积分
+	ID           uint64        `json:"id" binding:"required" msg:"请输入活动id"`            // 活动id
+	ActivityName string        `json:"activity_name" binding:"required" msg:"请输入活动名称"` // 活动名称
+	StartTime    string        `json:"startTime" binding:"required" msg:"请输入开始时间"`     // 开始时间
+	EndTime      string        `json:"endTime" binding:"required" msg:"请输入结束时间"`       // 结束时间
+	Location     string        `json:"location" binding:"required" msg:"请输入活动地点"`      // 活动地点
+	Introduction string        `json:"introduction" binding:"required" msg:"请输入活动简介"`  // 活动简介
+	Image        string        `json:"image" binding:"required"`                       //活动图片路径
+	Score        uint64        `json:"score" binding:"required" msg:"请输入活动积分"`         // 活动积分
+	Limit        []ctype.Major `json:"limit"`                                          // 专业限制
 }
 
 func (ActivityApi) ActivityCreateView(c *gin.Context) {
@@ -71,6 +73,7 @@ func (ActivityApi) ActivityCreateView(c *gin.Context) {
 		ResponsiblePerson: claims.Name,
 		Tel:               userInfo.Tel,
 		Score:             cr.Score,
+		Limit:             cr.Limit,
 	}).Error
 
 	if err != nil {
@@ -79,5 +82,6 @@ func (ActivityApi) ActivityCreateView(c *gin.Context) {
 		return
 	}
 	res.OkWithMessage(fmt.Sprintf("活动%s创建成功!", cr.ActivityName), c)
+
 	return
 }

@@ -10,7 +10,7 @@ type UserModel struct {
 	Gender            string                 `gorm:"size:3" json:"gender"`
 	Avatar            string                 `gorm:"size:256" json:"avatar"`
 	Role              ctype.Role             `gorm:"size:3" json:"role"`
-	Major             string                 `gorm:"size:32" json:"major"`
+	Major             ctype.Major            `gorm:"size:5" json:"major"`
 	Tel               uint64                 `json:"tel"`
 	Integrity         int                    `json:"integrity"`
 	Score             uint64                 `json:"score"`

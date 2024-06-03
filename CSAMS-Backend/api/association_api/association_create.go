@@ -5,7 +5,6 @@ import (
 	"CSAMS-Backend/models"
 	"CSAMS-Backend/models/res"
 	"CSAMS-Backend/utils/jwts"
-	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -28,32 +27,27 @@ func (AssociationApi) AssociationCreateView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
 
-	err := createAssociation(cr.ID, cr.AssociationName, claims.Name, claims.UserID, cr.Introduction)
-	if err != nil {
-		log.Print(err)
-		res.FailWithMessage(err.Error(), c)
-		return
-	}
-	res.OkWithMessage(fmt.Sprintf("协会%s创建成功!", cr.AssociationName), c)
-	return
-}
-
-func createAssociation(id uint64, associationName, teacherName string, teacherID uint64, introduction string) error {
 	var AssociationModel models.AssociationModel
 
-	err := global.DB.Take(&AssociationModel, "teacher_id = ?", teacherID).Error
+	err := global.DB.Take(&AssociationModel, "teacher_id = ?", claims.UserID).Error
 	if err == nil {
-		return errors.New("已经拥有协会")
+		log.Print(err)
+		res.FailWithMessage("已经拥有协会", c)
+		return
 	}
 
-	err = global.DB.Take(&AssociationModel, "id = ?", id).Error
+	err = global.DB.Take(&AssociationModel, "id = ?", cr.ID).Error
 	if err == nil {
-		return errors.New("协会id已存在")
+		log.Print(err)
+		res.FailWithMessage("协会id已存在", c)
+		return
 	}
 
-	err = global.DB.Take(&AssociationModel, "association_name = ?", associationName).Error
+	err = global.DB.Take(&AssociationModel, "association_name = ?", cr.AssociationName).Error
 	if err == nil {
-		return errors.New("协会已存在")
+		log.Print(err)
+		res.FailWithMessage("协会已存在", c)
+		return
 	}
 
 	date := time.Now().Format("2006-01-02")
@@ -61,15 +55,34 @@ func createAssociation(id uint64, associationName, teacherName string, teacherID
 
 	// 入库
 	err = global.DB.Create(&models.AssociationModel{
-		ID:              id,
-		AssociationName: associationName,
+		ID:              cr.ID,
+		AssociationName: cr.AssociationName,
 		CreateAt:        creatAt,
-		TeacherName:     teacherName,
-		TeacherID:       teacherID,
-		Introduction:    introduction,
+		TeacherName:     claims.Name,
+		TeacherID:       claims.UserID,
+		Introduction:    cr.Introduction,
 	}).Error
 	if err != nil {
-		return err
+		log.Print(err)
+		res.FailWithMessage(fmt.Sprintf("协会%s创建失败!", cr.AssociationName), c)
+		return
 	}
-	return nil
+	res.OkWithMessage(fmt.Sprintf("协会%s创建成功!", cr.AssociationName), c)
+
+	// 更新协会成员表
+	err = global.DB.Create(&models.AssociationMemberModel{
+		ID:          cr.ID,                                   // 写入协会id，这里表上面没关联，但是后端代码关联了
+		Users:       []models.UserModel{{ID: claims.UserID}}, // 将当前用户加入到关联表中
+		Posts:       "负责老师",                                  // 设置岗位信息
+		JoiningTime: time.Now(),                              // 设置加入时间
+	}).Error
+	if err != nil {
+		res.FailWithMessage("添加关联成员失败", c)
+		return
+	}
+
+	// 成功响应
+	res.OkWithMessage("添加关联成员成功", c)
+
+	return
 }
