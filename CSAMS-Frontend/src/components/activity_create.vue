@@ -7,24 +7,17 @@
                      field="user_name"
                      label="活动名"
         >
-          <a-input v-model="form.name" placeholder="活动名"></a-input>
+          <a-input v-model="form.title" placeholder="活动名"></a-input>
         </a-form-item>
         <a-form-item field="time" label="活动时间">
-          <a-select v-model="form.content" placeholder="选择角色"></a-select>
+          <a-input v-model="form.create_at" placeholder="活动时间"></a-input>
         </a-form-item>
-        <a-form-item field="role" label="权限">
-          <a-select v-model="form.content" placeholder="选择角色"></a-select>
+        <a-form-item field="place" label="地点">
+          <a-input v-model="form.place" placeholder="活动地点"></a-input>
         </a-form-item>
-        <a-form-item field="role" label="权限">
-          <a-select v-model="form.content" placeholder="选择角色"></a-select>
+        <a-form-item field="content" label="内容">
+          <a-input v-model="form.content" placeholder="活动内容"></a-input>
         </a-form-item>
-        <a-form-item field="role" label="权限">
-          <a-select v-model="form.content" placeholder="选择角色"></a-select>
-        </a-form-item>
-        <a-form-item field="role" label="权限">
-          <a-select v-model="form.content" placeholder="选择角色"></a-select>
-        </a-form-item>
-
       </a-form>
     </a-modal>
   </div>
@@ -32,7 +25,7 @@
 <script lang="ts" setup>
 import {reactive, ref} from "vue";
 import {Message} from "@arco-design/web-vue";
-import {activityCreateApi, type activityCreateRequest} from "@/api/activity_api";
+import {activityCreateApi, type activityRequest} from "@/api/activity_api";
 
 const props = defineProps({
   visible: {
@@ -43,14 +36,16 @@ const props = defineProps({
 const emits = defineEmits(["update:visible", "ok"])
 
 const defaultForm = {
+  id: 0,
   name: "",
   create_at: "",
   place: "",
   content: ""
 }
 
-const form = reactive<activityCreateRequest>({
-  name: "",
+const form = reactive<activityRequest>({
+  id: 0,
+  title: "",
   create_at: "",
   place: "",
   content: ""

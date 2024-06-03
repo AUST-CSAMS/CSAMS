@@ -33,7 +33,6 @@
         <a-form-item label="负责教师">
           <a-input v-model="form.teacher" @change="associationInfoUpdate"></a-input>
         </a-form-item>
-
       </a-form>
     </div>
   </div>
@@ -91,7 +90,6 @@ const form = reactive<associationInfoType>({
   teacher: "",
   president: "",
   introduction: ""
-
 })
 
 function onConfirm(val: string) {

@@ -33,9 +33,12 @@ import type {RecordType} from "@/components/admin_table.vue";
 import {reactive, ref} from "vue";
 import User_create from "@/components/user_create.vue";
 import {Message} from "@arco-design/web-vue";
+import {useStore} from "@/stores";
+
+const store = useStore()
 
 
-const columns = [
+let columns = [
   {title: '用户名', dataIndex: 'nick_name'},
   {title: '头像', slotName: 'avatar'},
   {title: '学号', dataIndex: 'number'},
@@ -45,9 +48,20 @@ const columns = [
   {title: '操作', slotName: 'action'},
 ]
 
+if (store.isGeneral) {
+  columns = [
+    {title: '用户名', dataIndex: 'nick_name'},
+    {title: '头像', slotName: 'avatar'},
+    {title: '学号', dataIndex: 'number'},
+    {title: '角色', dataIndex: 'role'},
+    {title: '专业', dataIndex: 'major'},
+    {title: '加入时间', slotName: 'created_at'},
+  ]
+}
+
 const roleOptions = [
-  {label: "普通用户", value: 2},
-  {label: "管理员", value: 1},
+  {label: "普通用户", value: 1},
+  {label: "管理员", value: 2},
   {label: "教职工", value: 3},
 ]
 

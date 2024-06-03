@@ -2,23 +2,8 @@
   <div class="container">
     <div class="title">已经结束的活动</div>
     <div class="activity_source">
-      <!--      <div v-for="item in data.list" class="item" @click="goTo(item)">-->
-      <!--        <div class="content">{{ item.title }}</div>-->
-      <!--      </div>-->
-      <div class="item">
-        <div class="content">爱心活动</div>
-      </div>
-      <div class="item">
-        <div class="content">爱心活动</div>
-      </div>
-      <div class="item">
-        <div class="content">爱心活动</div>
-      </div>
-      <div class="item">
-        <div class="content">爱心活动</div>
-      </div>
-      <div class="item">
-        <div class="content">爱心活动</div>
+      <div v-for="item in data.list" class="item">
+        <a :href="`/activities/${item.id}`" v-html="item.title"></a>
       </div>
     </div>
   </div>
@@ -26,27 +11,29 @@
 
 <script lang="ts" setup>
 import type {listDataType, paramsType} from "@/api";
-import {activitySearchApi, type activitySearchType} from "@/api/activity_api";
+import {activityListApi, type activityRequest,} from "@/api/activity_api";
 import {reactive} from "vue";
 
-const params = reactive<paramsType>({})
+const params = reactive<paramsType>({
+  key: ""
+})
 
-const data = reactive<listDataType<activitySearchType>>({
+const data = reactive<listDataType<activityRequest>>({
   list: [],
   count: 0
 })
 
-async function search() {
-  let res = await activitySearchApi(params)
-  data.count = res.data.count
+async function getData(p?: paramsType) {
+  if (p) {
+    Object.assign(params, p)
+  }
+  let res = await activityListApi(params)
   data.list = res.data.list
+  data.count = res.data.count
 }
 
-search()
+getData()
 
-function goTo(item: activitySearchType) {
-  window.open(`/article/${item.slug}`, "_blank")
-}
 </script>
 
 <style lang="scss">
@@ -56,6 +43,8 @@ function goTo(item: activitySearchType) {
   border-radius: 20px;
   margin: 20px;
   justify-content: center;
+  overflow-y: auto;
+
 
   .title {
     text-align: center;
@@ -65,7 +54,6 @@ function goTo(item: activitySearchType) {
   }
 
   .activity_source {
-    overflow-y: auto;
 
     .item {
       display: flex;

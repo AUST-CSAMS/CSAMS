@@ -20,17 +20,17 @@
         <a-form-item label="头像">
           <a-avatar :image-url="form.avatar" @click="showCropper"></a-avatar>
         </a-form-item>
-        <a-form-item label="学号">
+        <a-form-item label="学工号">
           <span>{{ form.id }}</span>
         </a-form-item>
         <a-form-item label="专业">
           <span>{{ form.major }}</span>
         </a-form-item>
         <a-form-item label="积分">
-          <span>{{ form.role }}</span>
+          <span>{{ form.score }}</span>
         </a-form-item>
         <a-form-item label="诚信度">
-          <span>{{ form.role }}</span>
+          <span>{{ form.integrity }}</span>
         </a-form-item>
       </a-form>
       <div>操作</div>

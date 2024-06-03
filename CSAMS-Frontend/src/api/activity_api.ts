@@ -2,6 +2,8 @@ import type {baseResponse, listDataType, paramsType} from "@/api/index";
 import {useAxios} from "@/api/index";
 
 export interface activitySearchType {
+    id: string
+    key: string
     title: string
     slug: string
 }
@@ -10,28 +12,37 @@ export function activitySearchApi(params: paramsType): Promise<baseResponse<list
     return useAxios.get("/api/activities", {params})
 }
 
-export interface activityCreateRequest {
-    name: string
+export interface activityRequest {
+    id: number
+    title: string
+    avatar: string
     create_at: string
     place: string
     content: string
 }
 
-export function activityCreateApi(data: activityCreateRequest): Promise<baseResponse<string>> {
-    return useAxios.post("/api/association/member", data)
+export function activityCreateApi(data: activityRequest): Promise<baseResponse<string>> {
+    return useAxios.post("/api/activities", data)
 }
 
 export interface activityUpdateRequest {
-    name: string
+    id: number
+    title: string
     create_at: string
     place: string
     content: string
 }
 
 export function activityUpdateApi(data: activityUpdateRequest): Promise<baseResponse<string>> {
-    return useAxios.post("/api/activity", data)
+    return useAxios.post("/api/activities", data)
 }
 
-export function activityDetailApi(id: string): Promise<baseResponse<activityCreateRequest>> {
-    return useAxios.get("/api/articles/" + id)
+export function activityDetailApi(id: string): Promise<baseResponse<activityRequest>> {
+    return useAxios.get("/api/activities/" + id)
 }
+
+
+export function activityListApi(params: paramsType): Promise<baseResponse<listDataType<activityRequest>>> {
+    return useAxios.get("/api/activities", {params: params})
+}
+

@@ -3,11 +3,11 @@
     <a-modal :on-before-ok="createMember" :visible="props.visible" title="创建成员"
              @cancel="emits('update:visible', false)">
       <a-form ref="formRef" :model="form">
-        <a-form-item :rules="[{required:true,message:'请输入用户名'}]" :validate-trigger="['blur']"
+        <a-form-item :rules="[{required:true,message:'请输入用户id'}]" :validate-trigger="['blur']"
                      field="user_name"
-                     label="用户名"
+                     label="用户id"
         >
-          <a-input v-model="form.user_name" placeholder="用户名"></a-input>
+          <a-input v-model="form.id" placeholder="id"></a-input>
         </a-form-item>
         <a-form-item field="role" label="权限">
           <a-select v-model="form.role" :options="roleOptions" placeholder="选择角色"></a-select>
@@ -30,13 +30,13 @@ const props = defineProps({
 const emits = defineEmits(["update:visible", "ok"])
 
 const defaultForm = {
-  user_name: "",
-  role: 2,
+  id: "",
+  role: 1
 }
 
 const form = reactive<memberCreateRequest>({
-  role: 2,
-  user_name: ""
+  role: 1,
+  id: ""
 })
 
 const formRef = ref()
@@ -47,7 +47,6 @@ const roleOptions = [
   {label: "教师", value: 3},
 ]
 
-//校验密码
 
 async function createMember() {
   let val = await formRef.value.validate()

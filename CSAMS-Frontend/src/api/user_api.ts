@@ -44,7 +44,7 @@ export function userListApi(params: paramsType): Promise<baseResponse<listDataTy
 
 export interface memberCreateRequest {
     role: number
-    user_name: string
+    id: string
 }
 
 export function memberCreateApi(data: memberCreateRequest): Promise<baseResponse<string>> {
