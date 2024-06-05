@@ -54,7 +54,7 @@ func JwtTeacher() gin.HandlerFunc {
 			return
 		}
 		// 登录的用户
-		if !(claims.Role == int(ctype.PermissionTeacher) || claims.Role == int(ctype.PermissionStudentAdmin)) {
+		if claims.Role != int(ctype.PermissionTeacher) {
 			res.FailWithMessage("权限错误", c)
 			c.Abort()
 			return
@@ -84,7 +84,7 @@ func JwtStudentAdmin() gin.HandlerFunc {
 			return
 		}
 		// 登录的用户
-		if claims.Role != int(ctype.PermissionStudentAdmin) {
+		if !(claims.Role == int(ctype.PermissionTeacher) || claims.Role == int(ctype.PermissionStudentAdmin)) {
 			res.FailWithMessage("权限错误", c)
 			c.Abort()
 			return
