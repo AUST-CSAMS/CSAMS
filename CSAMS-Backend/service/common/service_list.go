@@ -33,7 +33,7 @@ func ComList[T any](model T, option Option) (list []T, count int64, err error) {
 	}
 	// 如果有高级查询就加上
 	if option.Where != nil {
-		query.Where(option.Where)
+		query = query.Where(option.Where)
 	}
 	// 模糊匹配
 	if option.Key != "" {

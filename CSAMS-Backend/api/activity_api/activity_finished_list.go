@@ -16,9 +16,7 @@ func (ActivityApi) ActivityFinishedListView(c *gin.Context) {
 		return
 	}
 
-	date := time.Now().Format("2006-01-02")
-
-	query := global.DB.Where("end_time < ?", date)
+	query := global.DB.Where("end_time < ?", time.Now())
 
 	list, count, _ := common.ComList(models.ActivityModel{}, common.Option{
 		PageInfo: cr,

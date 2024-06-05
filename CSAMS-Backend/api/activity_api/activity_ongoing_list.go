@@ -16,9 +16,7 @@ func (ActivityApi) ActivityOngoingListView(c *gin.Context) {
 		return
 	}
 
-	date := time.Now().Format("2006-01-02")
-
-	query := global.DB.Where("start_time < ? AND end_time > ?", date, date)
+	query := global.DB.Where("start_time < ? AND end_time > ?", time.Now(), time.Now())
 
 	list, count, _ := common.ComList(models.ActivityModel{}, common.Option{
 		PageInfo: cr,
