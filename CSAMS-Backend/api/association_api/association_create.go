@@ -70,7 +70,7 @@ func (AssociationApi) AssociationCreateView(c *gin.Context) {
 	err = global.DB.Create(&models.AssociationMemberModel{
 		ID:          cr.ID,                                   // 写入协会id，这里表上面没关联，但是后端代码关联了
 		Users:       []models.UserModel{{ID: claims.UserID}}, // 将当前用户加入到关联表中
-		Posts:       "负责老师",                                  // 设置岗位信息
+		Posts:       "负责老师",                                  // 设置职位信息
 		JoiningTime: time.Now(),                              // 设置加入时间
 	}).Error
 	if err != nil {

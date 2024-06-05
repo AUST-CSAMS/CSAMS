@@ -43,7 +43,7 @@ func (AssignmentApi) AssignmentListView(c *gin.Context) {
 	}
 
 	// AssignmentModel 表获取所有含有相同 ActivityID 的记录
-	query := global.DB.Where("activity_id IN (?)", activityIDs)
+	query := global.DB.Where("activity_id IN (?) AND is_correct = ?", activityIDs, false)
 
 	list, count, _ := common.ComList(models.AssignmentModel{}, common.Option{
 		PageInfo: cr,
