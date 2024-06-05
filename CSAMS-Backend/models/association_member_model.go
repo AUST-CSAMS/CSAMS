@@ -3,8 +3,8 @@ package models
 import "time"
 
 type AssociationMemberModel struct {
-	ID          uint64      `gorm:"primaryKey" json:"id"`
-	Users       []UserModel `gorm:"foreignKey:AssociationID;constraint:OnDelete:SET NULL" json:"-"`
-	Posts       string      `gorm:"size:16" json:"Posts"`
-	JoiningTime time.Time   `json:"joining_time"`
+	UserID        uint64    `gorm:"primaryKey" json:"-"`
+	AssociationID uint64    `json:"association_id"`
+	Posts         string    `gorm:"size:16" json:"Posts"`
+	JoiningTime   time.Time `json:"joining_time"`
 }

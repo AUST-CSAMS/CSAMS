@@ -14,8 +14,7 @@ type UserModel struct {
 	Tel               uint64                 `json:"tel"`
 	Integrity         int                    `json:"integrity"`
 	Score             uint64                 `json:"score"`
-	AssociationID     *uint64                `json:"association_id"`
-	AssociationMember AssociationMemberModel `gorm:"foreignKey:AssociationID" json:"-"`
+	AssociationMember AssociationMemberModel `gorm:"foreignKey:UserID" json:"association_member"`
 	Assignments       []AssignmentModel      `gorm:"foreignKey:UserID" json:"-"`
 	Activities        []ActivityModel        `gorm:"many2many:activity_log_models;joinForeignKey:UserID;JoinReferences:ActivityID" json:"-"`
 }

@@ -23,25 +23,17 @@ func (AssociationApi) AssociationManageView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
 
-	var AssociationModel models.AssociationModel
+	var association models.AssociationModel
 
-	err := global.DB.Take(&AssociationModel, "teacher_id = ?", claims.UserID).Error
+	err := global.DB.Take(&association, "teacher_id = ?", claims.UserID).Error
 	if err != nil {
 		log.Print(err)
 		res.FailWithMessage("还未创建协会", c)
 		return
 	}
-
-	var user models.UserModel
-	err = global.DB.Where("id = ?", cr.ID).Find(&user).Error
-	if err != nil {
-		print(err)
-		res.FailWithMessage("该用户不存在", c)
-		return
-	}
-
+	var associationMember models.AssociationMemberModel
 	// 使用 db.Update 方法进行更新
-	err = global.DB.Model(&models.AssociationMemberModel{}).Where("id = ?", user.AssociationID).Update("Posts", cr.Posts).Error
+	err = global.DB.Take(&associationMember, cr.ID).Update("Posts", cr.Posts).Error
 	if err != nil {
 		print(err)
 		res.FailWithMessage("成员职位修改失败", c)
