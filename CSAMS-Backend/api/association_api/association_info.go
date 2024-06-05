@@ -20,15 +20,17 @@ func (AssociationApi) AssociationInfoView(c *gin.Context) {
 		return
 	}
 
+	var associationMember models.AssociationMemberModel
 	// 如果用户未加入任何协会，返回提示信息
-	if userInfo.AssociationMember.AssociationID == 0 {
-		res.OkWithMessage("用户未加入协会", c)
+	err = global.DB.Take(&associationMember, claims.UserID).Error
+	if err != nil {
+		res.FailWithMessage("用户未加入协会", c)
 		return
 	}
 
 	// 查询用户所属协会信息
 	var associationInfo models.AssociationModel
-	err = global.DB.Take(&associationInfo, userInfo.AssociationMember.AssociationID).Error
+	err = global.DB.Take(&associationInfo, associationMember.AssociationID).Error
 	if err != nil {
 		res.FailWithMessage("协会不存在", c)
 		return
