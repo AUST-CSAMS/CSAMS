@@ -4,6 +4,7 @@ import (
 	"CSAMS-Backend/global"
 	"CSAMS-Backend/models"
 	"CSAMS-Backend/models/res"
+	"CSAMS-Backend/utils/jwts"
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
@@ -12,7 +13,7 @@ type ActivityEndRequest struct {
 	ID uint64 `json:"id" bind:"required"` // 活动id
 }
 
-func (ActivityApi) AssignmentEndView(c *gin.Context) {
+func (ActivityApi) ActivityEndView(c *gin.Context) {
 	var cr ActivityEndRequest
 	if err := c.ShouldBindJSON(&cr); err != nil {
 		res.FailWithCode(res.ArgumentError, c)
@@ -22,6 +23,14 @@ func (ActivityApi) AssignmentEndView(c *gin.Context) {
 	err := global.DB.Take(&activity, cr.ID).Error
 	if err != nil {
 		res.FailWithMessage("活动不存在", c)
+		return
+	}
+
+	_claims, _ := c.Get("claims")
+	claims := _claims.(*jwts.CustomClaims)
+
+	if activity.ResponsiblePerson != claims.Name {
+		res.FailWithMessage("没有停止该活动的权限", c)
 		return
 	}
 
