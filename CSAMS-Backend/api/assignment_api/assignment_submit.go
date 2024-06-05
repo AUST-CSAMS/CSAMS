@@ -24,15 +24,15 @@ func (AssignmentApi) AssignmentSubmitView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
 
-	var AssignmentModel models.AssignmentModel
-	err := global.DB.Where("activity_id = ? AND user_id = ?", cr.ID, claims.UserID).Find(&AssignmentModel).Error
+	var assignmentModel models.AssignmentModel
+	err := global.DB.Take(&assignmentModel, "activity_id = ? AND user_id = ?", cr.ID, claims.UserID).Error
 	if err != nil {
 		log.Print(err)
 		res.FailWithMessage("作业不存在", c)
 		return
 	}
 
-	err = global.DB.Model(&AssignmentModel).Update("content", cr.Content).Error
+	err = global.DB.Model(&assignmentModel).Update("content", cr.Content).Error
 	if err != nil {
 		log.Print(err)
 		res.FailWithMessage("作业提交失败", c)

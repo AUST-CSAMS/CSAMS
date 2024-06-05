@@ -8,5 +8,6 @@ type AssignmentModel struct {
 	UserID     uint64        `json:"user_id"`
 	User       UserModel     `gorm:"foreignKey:UserID" json:"-"`
 	IsSubmit   bool          `json:"is_submit"`
+	IsFinish   bool          `json:"is_finish"`
 	IsCorrect  bool          `json:"is_correct"`
 }
