@@ -35,7 +35,7 @@ func (AssociationApi) AssociationJoinView(c *gin.Context) {
 	err = global.DB.Create(&models.AssociationMemberModel{
 		UserID:        cr.ID,               // 将此学生加入到关联表中
 		AssociationID: AssociationModel.ID, // 写入协会id，这里表上面没关联，但是后端代码关联了
-		Posts:         "成员",              // 设置职位信息
+		Posts:         "成员",                // 设置职位信息
 		JoiningTime:   time.Now(),          // 设置加入时间
 	}).Error
 	if err != nil {
