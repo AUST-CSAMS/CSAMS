@@ -50,14 +50,11 @@ func (AssociationApi) AssociationCreateView(c *gin.Context) {
 		return
 	}
 
-	date := time.Now().Format("2006-01-02")
-	creatAt, _ := time.Parse("2006-01-02", date)
-
 	// 入库
 	err = global.DB.Create(&models.AssociationModel{
 		ID:              cr.ID,
 		AssociationName: cr.AssociationName,
-		CreateAt:        creatAt,
+		CreateAt:        time.Now(),
 		TeacherName:     claims.Name,
 		TeacherID:       claims.UserID,
 		Introduction:    cr.Introduction,

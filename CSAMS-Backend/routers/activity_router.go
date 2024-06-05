@@ -11,4 +11,5 @@ func (router RouterGroup) ActivityRouter() {
 	router.GET("activities/ongoing", app.ActivityOngoingListView)
 	router.GET("activities/upcoming", app.ActivityUpcomingListView)
 	router.POST("activities", middleware.JwtTeacher(), app.ActivityCreateView)
+	router.GET("activities", middleware.JwtAuth(), app.ActivityListView)
 }

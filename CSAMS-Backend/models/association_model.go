@@ -11,5 +11,5 @@ type AssociationModel struct {
 	Teacher         UserModel       `gorm:"foreignKey:TeacherID" json:"-"`
 	President       string          `gorm:"size:16" json:"president"`
 	Introduction    string          `gorm:"size:256" json:"introduction"`
-	Activities      []ActivityModel `gorm:"many2many:activity_association_models;joinForeignKey:AssociationID;JoinReferences:ActivityID" json:"activities"`
+	Activities      []ActivityModel `gorm:"many2many:activity_association_models;joinForeignKey:AssociationID;JoinReferences:ActivityID" json:"-"`
 }
