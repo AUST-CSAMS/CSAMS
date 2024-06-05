@@ -1,7 +1,7 @@
 package models
 
 type AssignmentModel struct {
-	ID         uint64        `json:"assignment_id"`
+	ID         uint64        `json:"id"`
 	Content    string        `json:"content"`
 	ActivityID uint64        `json:"activity_id"`
 	Activity   ActivityModel `gorm:"foreignKey:ActivityID" json:"-"`

@@ -8,4 +8,5 @@ import (
 func (router RouterGroup) AssignmentRouter() {
 	app := api.ApiGroupApp.AssignmentApi
 	router.GET("assignments", middleware.JwtTeacher(), app.AssignmentListView)
+	router.PUT("assignments/submit", middleware.JwtAuth(), app.AssignmentSubmitView)
 }
