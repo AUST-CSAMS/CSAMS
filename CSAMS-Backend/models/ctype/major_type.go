@@ -232,3 +232,158 @@ func (s Major) String() string {
 	}
 	return str
 }
+
+func toMajorArray(sa []string) MajorArray {
+	var ma MajorArray
+	var m Major
+	for _, s := range sa {
+		switch s {
+		case "英语":
+			m = EnglishLanguage
+		case "财务管理":
+			m = FinancialManagement
+		case "会计学":
+			m = Accounting
+		case "人力资源管理":
+			m = HumanResourceManagement
+		case "市场营销":
+			m = Marketing
+		case "日语":
+			m = JapaneseLanguage
+		case "网络与新媒体":
+			m = NetworkAndNewMedia
+		case "政治学与行政学":
+			m = PoliticalScienceAndPublicAdministration
+		case "工程力学":
+			m = EngineeringMechanics
+		case "人工智能":
+			m = ArtificialIntelligence
+		case "智能采矿工程":
+			m = IntelligentMiningEngineering
+		case "智能制造工程":
+			m = IntelligentManufacturingEngineering
+		case "环境工程":
+			m = EnvironmentalEngineering
+		case "化学工程与工艺":
+			m = ChemicalEngineeringAndTechnology
+		case "城市地下空间工程":
+			m = UrbanUndergroundSpaceEngineering
+		case "物联网工程":
+			m = InternetOfThingsEngineering
+		case "工业设计":
+			m = IndustrialDesign
+		case "数字媒体技术":
+			m = DigitalMediaTechnology
+		case "通信工程":
+			m = CommunicationsEngineering
+		case "土木工程":
+			m = CivilEngineering
+		case "计算机科学与技术":
+			m = ComputerScienceAndTechnology
+		case "数学与应用数学":
+			m = MathematicsAndAppliedMathematics
+		case "工程造价":
+			m = EngineeringCost
+		case "机械设计制造及其自动化":
+			m = MechanicalDesignManufacturingAndAutomation
+		case "智能建造":
+			m = IntelligentConstruction
+		case "电气工程及其自动化":
+			m = ElectricalEngineeringAndAutomation
+		case "预防医学":
+			m = PreventiveMedicine
+		case "地理空间信息工程":
+			m = GeographicInformationEngineering
+		case "地质工程":
+			m = GeologicalEngineering
+		case "药学":
+			m = Pharmacy
+		case "信息安全":
+			m = InformationSecurity
+		case "安全工程":
+			m = SafetyEngineering
+		case "测绘工程":
+			m = SurveyingEngineering
+		case "软件工程":
+			m = SoftwareEngineering
+		case "应用化学":
+			m = AppliedChemistry
+		case "消防工程":
+			m = FireEngineering
+		case "资源勘查工程":
+			m = ResourceExplorationEngineering
+		case "光电信息科学与工程":
+			m = OptoelectronicInformationScienceAndEngineering
+		case "制药工程":
+			m = PharmaceuticalEngineering
+		case "信息与计算科学":
+			m = InformationAndComputingScience
+		case "无机非金属材料工程":
+			m = InorganicNonmetallicMaterialsEngineering
+		case "自动化":
+			m = Automation
+		case "过程装备与控制工程":
+			m = ProcessEquipmentAndControlEngineering
+		case "水文与水资源工程":
+			m = HydrologyAndWaterResourcesEngineering
+		case "机器人工程":
+			m = RoboticsEngineering
+		case "智能科学与技术":
+			m = IntelligentScienceAndTechnology
+		case "金融学":
+			m = Finance
+		case "临床医学":
+			m = ClinicalMedicine
+		case "数据科学与大数据技术":
+			m = DataScienceAndBigDataTechnology
+		case "机械电子工程":
+			m = MechatronicsEngineering
+		case "应用统计学":
+			m = AppliedStatistics
+		case "测控技术与仪器":
+			m = MeasurementControlTechnologyAndInstrument
+		case "采矿工程":
+			m = MiningEngineering
+		case "集成电路设计与集成系统":
+			m = IntegratedCircuitDesignAndIntegratedSystems
+		case "电子商务":
+			m = ECommerce
+		case "建筑学":
+			m = Architecture
+		case "弹药工程与爆炸技术":
+			m = AmmunitionEngineeringAndExplosivesTechnology
+		case "高分子材料与工程":
+			m = PolymerMaterialsAndEngineering
+		case "区块链工程":
+			m = BlockchainEngineering
+		case "遥感科学与技术":
+			m = RemoteSensingScienceAndTechnology
+		case "建筑环境与能源应用工程":
+			m = BuildingEnvironmentAndEnergyApplicationEngineering
+		case "交通工程":
+			m = TransportationEngineering
+		case "智能材料与结构":
+			m = IntelligentMaterialsAndStructures
+		case "导航工程":
+			m = NavigationEngineering
+		case "电子信息工程":
+			m = ElectronicInformationEngineering
+		case "应用物理学":
+			m = AppliedPhysics
+		case "应急技术与管理":
+			m = EmergencyTechnologyAndManagement
+		case "医学检验技术":
+			m = MedicalLaboratoryTechnology
+		case "能源化学工程":
+			m = EnergyChemicalEngineering
+		case "勘查技术与工程":
+			m = ExplorationTechnologyAndEngineering
+		case "车辆工程":
+			m = VehicleEngineering
+		default:
+			m = 0
+		}
+		ma = append(ma, m)
+	}
+	return ma
+}

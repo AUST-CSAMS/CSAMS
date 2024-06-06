@@ -4,6 +4,7 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
+	"log"
 )
 
 // MajorArray 自定义类型用于将 []Major 转换为 JSON 存入数据库
@@ -31,4 +32,15 @@ func (m *MajorArray) Scan(value interface{}) error {
 func (m MajorArray) Value() (driver.Value, error) {
 	// 将 CustomIntSlice 转换为 JSON 数据
 	return json.Marshal(m)
+}
+
+func (m *MajorArray) UnmarshalJSON(data []byte) error {
+	var sa []string
+	err := json.Unmarshal(data, &sa)
+	if err != nil {
+		log.Print("解析失败:", err)
+		return err
+	}
+	*m = toMajorArray(sa)
+	return nil
 }
