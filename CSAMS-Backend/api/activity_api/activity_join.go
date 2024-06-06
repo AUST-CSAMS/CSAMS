@@ -50,9 +50,11 @@ func (ActivityApi) ActivityJoinView(c *gin.Context) {
 	}
 
 	// 限制筛选
-	if !contains(activity.Limit, user.Major) {
-		res.FailWithMessage("没有报名资格", c)
-		return
+	if activity.Limit != nil {
+		if !contains(activity.Limit, user.Major) {
+			res.FailWithMessage("没有报名资格", c)
+			return
+		}
 	}
 
 	// 是否已经报名
