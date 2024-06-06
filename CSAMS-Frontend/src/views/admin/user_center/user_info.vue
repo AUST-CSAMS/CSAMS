@@ -14,14 +14,17 @@
       <div>用户信息</div>
       <a-form ref="formRef" :label-col-props="{span: 5}" :model="form"
               :wrapper-col-props="{span:19}">
-        <a-form-item label="用户名">
-          <span>{{ form.user_name }}</span>
+        <a-form-item label="id">
+          <span>{{ form.id }}</span>
         </a-form-item>
         <a-form-item label="头像">
           <a-avatar :image-url="form.avatar" @click="showCropper"></a-avatar>
         </a-form-item>
-        <a-form-item label="学号">
+        <a-form-item label="学工号">
           <span>{{ form.id }}</span>
+        </a-form-item>
+        <a-form-item label="身份">
+          <span>{{ form.role }}</span>
         </a-form-item>
         <a-form-item label="专业">
           <span>{{ form.major }}</span>
@@ -91,17 +94,17 @@ function showCropper() {
 
 const form = reactive<userInfoType>({
   id: 0,
-  user_name: "",
   password: "",
+  name: "",
   age: 0,
   gender: "",
-  major: "",
+  major: 0,
   avatar: "",
-  tel: "",
-  token: "",
-  role: 0,
+  tel: 0,
+  role: "",
   integrity: 100,
-  score: 0
+  score: 0,
+  associationID: 0
 })
 
 async function getData() {
@@ -109,13 +112,9 @@ async function getData() {
   Object.assign(form, res.data)
 }
 
-
 getData()
 
 async function userInfoUpdate() {
-  let val = await formRef.value.validate()
-  if (val) return
-
   let data: userInfoUpdateType = {
     avatar: form.avatar,
   }

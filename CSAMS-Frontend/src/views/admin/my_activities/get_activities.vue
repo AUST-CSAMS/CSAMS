@@ -1,31 +1,54 @@
 <template>
-  <div>
+  <div v-if="store.isTeacher">
     <activity_create v-model:visible="visible" @ok="createOk"></activity_create>
-    <a-modal v-model:visible="updateVisible" :on-before-ok="updateActivityOk" title="编辑活动">
-      <a-form ref="formRef" :model="updateActivityForm">
-        <a-form-item :rules="[{required:true,message:'请输入活动名'}]" :validate-trigger="['blur']"
-                     field="name"
-                     label="活动名"
+    <admin_table
+      ref="adminTable"
+      :columns="columns"
+      :url="activityListTeacherApi"
+      add-label="生成活动"
+      default-delete
+      no-confirm
+      no-edit
+      no-search
+      @add="visible=true">
+      <template #image="{record}:{record: activityRequest}">
+        <a-avatar :imageUrl="record.image"></a-avatar>
+      </template>
+    </admin_table>
+  </div>
+  <div v-else>
+    <a-modal v-model:visible="submitVisible" :on-before-ok="submitassignment">
+      <a-form ref="assignmentFormRef" :model="assignmentsubmitForm">
+        <a-form-item :rules="[{required:true,message:'请填入作业'}]" :validate-trigger="['blur']"
+                     field="id"
         >
-          <a-input v-model="updateActivityForm.title" placeholder="活动名"></a-input>
+          <a-input-number v-model="assignmentsubmitForm.id" placeholder="活动id"></a-input-number>
         </a-form-item>
-        <a-form-item field="role" label="权限">
-          <a-select v-model="updateActivityForm.place" placeholder="选择角色"></a-select>
+
+        <a-form-item :rules="[{required:true,message:'请填入作业'}]" :validate-trigger="['blur']"
+                     field="content"
+        >
+          <a-input v-model="assignmentsubmitForm.content" placeholder="作业内容"></a-input>
         </a-form-item>
       </a-form>
     </a-modal>
     <admin_table
       ref="adminTable"
       :columns="columns"
-      :url="userListApi"
-      add-label="生成活动"
-      default-delete
+      :url="activityListApi"
+      no-add
       no-confirm
-      search-placeholder="搜索活动"
-      @add="visible=true"
-      @edit="edit">
-      <template #activity_avatar="{record}:{record: userInfoType}">
-        <a-avatar :imageUrl="record.avatar"></a-avatar>
+      no-delete
+      no-edit
+      no-search>
+      <template #activity_avatar="{record}:{record: activityRequest}">
+        <a-avatar :imageUrl="record.image"></a-avatar>
+      </template>
+      <template #image="{record}:{record: activityRequest}">
+        <a-avatar :imageUrl="record.image"></a-avatar>
+      </template>
+      <template #action_middle="">
+        <a-button type="outline" @click="submit()">提交作业</a-button>
       </template>
     </admin_table>
   </div>
@@ -33,29 +56,32 @@
 
 <script lang="ts" setup>
 import Admin_table from "@/components/admin_table.vue";
-import {userListApi} from "@/api/user_api";
-import type {userInfoType} from "@/api/user_api";
-import type {RecordType} from "@/components/admin_table.vue";
 import {reactive, ref} from "vue";
 import {Message} from "@arco-design/web-vue";
 import Activity_create from "@/components/activity_create.vue";
-import {activityUpdateApi, type activityUpdateRequest} from "@/api/activity_api";
+import {activityListApi, activityListTeacherApi, type activityRequest,} from "@/api/activity_api";
+import {useStore} from "@/stores";
+import {
+  assignmentSubmitApi, type assignmentSubmitFormType,
+  type assignmentSubmitType,
+} from "@/api/assignment_api";
+
+const store = useStore()
 
 
-const columns = [
+const assignmentsubmitForm = reactive<assignmentSubmitType>({
+  id: 0,
+  content: ""
+})
+let columns = [
+  {title: '活动ID', dataIndex: 'id'},
   {title: '活动名称', dataIndex: 'activity_name'},
-  {title: '活动图片', slotName: 'activity_avatar'},
-  {title: '联系人', dataIndex: 'name'},
+  {title: '活动图片', slotName: 'image'},
+  {title: '联系人', dataIndex: 'responsible_person'},
   {title: '联系方式', dataIndex: 'tel'},
   {title: '开始时间', slotName: 'created_at'},
   {title: '结束时间', slotName: 'created_at'},
   {title: '操作', slotName: 'action'},
-]
-
-const roleOptions = [
-  {label: "普通用户", value: 2},
-  {label: "管理员", value: 1},
-  {label: "教职工", value: 3},
 ]
 
 
@@ -67,39 +93,25 @@ function createOk() {
 }
 
 
-const updateVisible = ref(false)
+const submitVisible = ref(false)
 
-const updateActivityForm = reactive<activityUpdateRequest>({
-  title: "",
-  create_at: "",
-  place: "",
-  content: ""
-})
 
-interface activityInfoType {
-  name: string
+const assignmentFormRef = ref()
+
+
+function submit() {
+  submitVisible.value = true
 }
 
-function edit(record: RecordType<activityInfoType>): void {
-  updateActivityForm.name = record.name
-  updateVisible.value = true
-}
+async function submitassignment() {
+  let val = await assignmentFormRef.value.validate()
+  if (val) return
 
-const formRef = ref()
-
-async function updateActivityOk() {
-  let val = await formRef.value.validate()
-  if (val) return false
-
-  let res = await activityUpdateApi(updateActivityForm)
+  let res = await assignmentSubmitApi(assignmentsubmitForm)
   if (res.code) {
     Message.error(res.msg)
     return
   }
   Message.success(res.msg)
-  await adminTable.value.getList()
-  return true
 }
-
-
 </script>

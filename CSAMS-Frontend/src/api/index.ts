@@ -43,6 +43,14 @@ useAxios.interceptors.response.use((response) => {
     return Promise.reject(err.message)
 })
 
+export function defaultDeleteApi<T extends number | string>(url: string, idList: T[]): Promise<baseResponse<string>> {
+    return useAxios.delete(url, {
+        data: {
+            id_list: idList,
+        }
+    })
+}
+
 
 
 

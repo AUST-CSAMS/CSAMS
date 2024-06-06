@@ -14,7 +14,7 @@ export function dateFormat(date: string) {
 }
 
 
-export function relativeCurrentTime(date: string){
+export function relativeCurrentTime(date: string) {
     return dayjs(date).fromNow()
 }
 

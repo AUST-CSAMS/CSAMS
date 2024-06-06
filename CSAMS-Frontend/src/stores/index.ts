@@ -6,7 +6,7 @@ import {logoutApi, userInfoApi} from "@/api/user_api";
 import {associationInfoApi, type associationInfoType} from "@/api/association_api";
 
 export interface userStoreInfoType {
-    user_name: string
+    name: string
     role: number
     user_id: number
     avatar: string
@@ -15,7 +15,7 @@ export interface userStoreInfoType {
 }
 
 const userInfo: userStoreInfoType = {
-    user_name: "",
+    name: "",
     role: 0,
     user_id: 0,
     avatar: "",
@@ -24,10 +24,10 @@ const userInfo: userStoreInfoType = {
 }
 
 const associationInfo: associationInfoType = {
+    id: 0,
     name: "",
-    avatar: "",
     create_at: "",
-    teacher: "",
+    teacher_name: "",
     president: "",
     introduction: ""
 }
@@ -47,7 +47,7 @@ export const useStore = defineStore('counter', {
             let info = parseToken(token)
             let data = res.data
             this.userInfo = {
-                user_name: data.user_name,
+                name: data.name,
                 role: info.role,
                 user_id: info.user_id,
                 avatar: data.avatar,
@@ -108,13 +108,13 @@ export const useStore = defineStore('counter', {
             return this.userInfo.role !== 0
         },
         isAdmin(): boolean {
-            return this.userInfo.role == 1
+            return this.userInfo.role == 3
         },
         isGeneral(): boolean {
             return this.userInfo.role == 2
         },
         isTeacher(): boolean {
-            return this.userInfo.role == 3
+            return this.userInfo.role == 1
         }
     }
 })

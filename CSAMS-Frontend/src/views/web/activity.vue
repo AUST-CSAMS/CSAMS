@@ -5,17 +5,23 @@
       <div class="container">
         <div class="article_container">
           <div class="head">
-            <div :id="data.title" class="title">{{ data.title }}</div>
+            <div class="title">{{ data.activity_name }}</div>
             <div class="date">
-              发布时间：{{ dateFormat(data.create_at) }}
+              开始时间：{{ dateFormat(data.startTime) }}
+            </div>
+            <div class="date">
+              结束时间：{{ dateFormat(data.endTime) }}
+            </div>
+            <div class="date=">
+              限制：{{ data.limit }}
             </div>
           </div>
           <article>
-            <MdPreview v-model="data.content"></MdPreview>
+            <MdPreview v-model="data.introduction"></MdPreview>
           </article>
         </div>
       </div>
-      <Button type="primary" @click="">参加</Button>
+      <Button type="primary" @click="activityjoin">参加</Button>
     </main>
     <index_footer></index_footer>
   </div>
@@ -27,40 +33,66 @@ import "md-editor-v3/lib/preview.css"
 import Index_nav from "@/components/index_nav.vue";
 import Index_footer from "@/components/index_footer.vue";
 import {onMounted, reactive, ref, watch} from "vue";
-import {activityDetailApi, type activityRequest} from "@/api/activity_api";
+import {
+  activityInfoApi,
+  activityJoinApi,
+  type activityJoinType,
+  type activityRequest
+} from "@/api/activity_api";
 import {Button, Message} from "@arco-design/web-vue";
 import router from "@/router";
 import {useRoute} from "vue-router";
+import {useStore} from "@/stores";
 
 const route = useRoute()
 
+const store = useStore()
 
-const id = ref<string>(route.params.id as string)
+const id = ref<number>(parseInt(route.params.id as string))
 
 
 const data = reactive<activityRequest>({
   id: 0,
-  title: "",
-  create_at: "",
-  place: "",
-  content: ""
+  activity_name: "",
+  startTime: "",
+  endTime: "",
+  location: "",
+  introduction: "",
+  image: "",
+  responsible_person: "",
+  tel: 0,
+  score: 0,
+  limit: []
 })
 
 async function getData() {
-  let res = await activityDetailApi(id.value)
+  let res = await activityInfoApi(id.value)
+  console.log(id.value)
+  console.log(res.code)
+  console.log(dateFormat(data.startTime))
+  console.log(data.startTime)
   if (res.code) {
-    Message.warning("文章不存在")
-    await router.push({
-      name: "article_notfound"
-    })
+    Message.warning("活动不存在")
     return
   }
   Object.assign(data, res.data)
 }
 
+async function activityjoin() {
+  let form: activityJoinType = {
+    id: data.id
+  }
+  let res = await activityJoinApi(form)
+  if (res.code) {
+    Message.error(res.msg)
+    return false
+  }
+  Message.success(res.msg)
+}
+
 watch(() => route.params, () => {
   if (route.params.id) {
-    id.value = route.params.id as string
+    id.value = Number(route.params.id as string)
     getData()
   }
 }, {immediate: true, deep: true})
@@ -94,11 +126,12 @@ onMounted(() => {
     background-color: var(--bg);
     padding-top: 20px;
     padding-bottom: 20px;
+    min-height: 83vh;
 
     .container {
       width: 1200px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
 
       .article_container {
 

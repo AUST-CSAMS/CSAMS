@@ -3,7 +3,7 @@
     <a-dropdown class="admin_dropdown" @select="select">
       <div class="admin_user_info_menu_dropdown">
         <img :src="store.userInfo.avatar" alt="">
-        <span class="admin_user_info_menu_dropdown_span">{{ store.userInfo.nick_name }}</span>
+        <span class="admin_user_info_menu_dropdown_span">{{ store.userInfo.user_name }}</span>
         <IconDown></IconDown>
       </div>
       <template #content>
@@ -31,14 +31,6 @@ let dopList: dopType[] = [
   {
     name: "home",
     title: "管理系统",
-  },
-  {
-    name: "my_association",
-    title: "我的协会",
-  },
-  {
-    name: "my_activities",
-    title: "我的活动",
   },
   {
     name: "logout",

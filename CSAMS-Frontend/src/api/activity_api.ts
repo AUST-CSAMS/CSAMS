@@ -9,39 +9,84 @@ export interface activitySearchType {
 }
 
 export function activitySearchApi(params: paramsType): Promise<baseResponse<listDataType<activitySearchType>>> {
-    return useAxios.get("/api/activities", {params})
+    return useAxios.post("/api/activities", {params})
 }
 
 export interface activityRequest {
     id: number
-    title: string
-    create_at: string
-    place: string
-    content: string
+    activity_name: string
+    startTime: string
+    endTime: string
+    location: string
+    introduction: string
+    image: string
+    responsible_person: string
+    tel: number
+    score: number
+    limit: number[]
 }
 
-export function activityCreateApi(data: activityRequest): Promise<baseResponse<string>> {
-    return useAxios.post("/api/activities", data)
-}
-
-export interface activityUpdateRequest {
+export interface activityCreateRequest {
     id: number
-    title: string
-    create_at: string
-    place: string
-    content: string
+    activity_name: string
+    startTime: string
+    endTime: string
+    location: string
+    introduction: string
+    image: string
+    score: number
+    limit: string[]
 }
 
-export function activityUpdateApi(data: activityUpdateRequest): Promise<baseResponse<string>> {
+export interface activityCreateFormRequest {
+    id: string
+    activity_name: string
+    startTime: string
+    endTime: string
+    location: string
+    introduction: string
+    image: string
+    score: string
+    limit: string
+}
+
+export function activityCreateApi(data: activityCreateRequest): Promise<baseResponse<string>> {
     return useAxios.post("/api/activities", data)
 }
 
-export function activityDetailApi(id: string): Promise<baseResponse<activityRequest>> {
-    return useAxios.get("/api/activities/" + id)
+
+export function activityFinishedListApi(params: paramsType): Promise<baseResponse<listDataType<activityRequest>>> {
+    return useAxios.get("/api/activities/finished", {params: params})
 }
 
+export function activityOngoingListApi(params: paramsType): Promise<baseResponse<listDataType<activityRequest>>> {
+    return useAxios.get("/api/activities/ongoing", {params: params})
+}
+
+export function activityUpcomingListApi(params: paramsType): Promise<baseResponse<listDataType<activityRequest>>> {
+    return useAxios.get("/api/activities/upcoming", {params: params})
+}
 
 export function activityListApi(params: paramsType): Promise<baseResponse<listDataType<activityRequest>>> {
     return useAxios.get("/api/activities", {params: params})
 }
+
+export function activityListTeacherApi(params: paramsType): Promise<baseResponse<listDataType<activityRequest>>> {
+    return useAxios.get("/api/activities_create", {params: params})
+}
+
+export interface activityJoinType {
+    id: number
+}
+
+export function activityJoinApi(data: activityJoinType): Promise<baseResponse<string>> {
+    return useAxios.post("/api/activities/join", data)
+}
+
+
+export function activityInfoApi(id: number): Promise<baseResponse<activityRequest>> {
+    return useAxios.get("/api/activity_info/" + id)
+}
+
+
 

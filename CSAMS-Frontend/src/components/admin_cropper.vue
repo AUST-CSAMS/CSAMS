@@ -12,8 +12,8 @@
       :title="'图片裁剪'"
       :visible="dialogVisible"
       :width="'40%'"
-      body-class="admin_cropper_upload_dialog"
-      modal-class="admin_cropper_modal"
+      body-class="gvb_cropper_upload_dialog"
+      modal-class="gvb_cropper_modal"
       @cancel="dialogVisible = false"
       @close="dialogVisible = false"
     >
@@ -84,7 +84,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import '../lib/vue-cropper/dist/index.css'
+import 'vue-cropper/dist/index.css'
+import {VueCropper} from "vue-cropper";
 import {ref, watch, reactive} from 'vue'
 import {Message} from "@arco-design/web-vue";
 import {IconPlusCircle, IconMinusCircle} from "@arco-design/web-vue/es/icon";
@@ -298,7 +299,7 @@ defineExpose({
 })
 </script>
 <style lang="scss">
-.admin_cropper_upload_dialog {
+.gvb_cropper_upload_dialog {
   .cropper {
     width: 100%;
     height: 50vh;
@@ -339,7 +340,7 @@ defineExpose({
   }
 }
 
-.admin_cropper_modal {
+.gvb_cropper_modal {
   .dialog-footer {
     > button {
       margin-left: 10px;

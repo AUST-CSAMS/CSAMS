@@ -13,18 +13,27 @@ const router = createRouter({
                     path: '',
                     name: 'index',
                     component: () => import('../views/web/index.vue'),
-                }
+                }, {
+                    path: 'association',
+                    name: 'association',
+                    component: () => import('../views/web/association.vue'),
+                },
+                {
+                    path: "activities/:id",
+                    name: "activities",
+                    component: () => import('../views/web/activity.vue'),
+                },
             ]
         },
         {
             path: '/login',
             name: 'login',
-            component: () => import('../views/login/index.vue')
+            component: () => import('../views/login/loginindex.vue')
         },
         {
-            path: '/enroll',
-            name: 'enroll',
-            component: () => import('../views/login/enroll.vue'),
+            path: '/register',
+            name: 'register',
+            component: () => import('../views/login/registerindex.vue'),
         },
         {
             path: '/admin',
@@ -104,24 +113,24 @@ const router = createRouter({
                         },
                     ]
                 },
-                // {
-                //     path: "assignments",
-                //     name: "active_assignments",
-                //     meta: {
-                //         title: "活动作业",
-                //         isAdmin: true,
-                //     },
-                //     children: [
-                //         {
-                //             path: "submit_assignments",
-                //             name: "submit_assignments",
-                //             meta: {
-                //                 title: "提交作业"
-                //             },
-                //             component: () => import('../views/admin/active_assignments/submit_assignments.vue'),
-                //         }
-                //     ]
-                // },
+                {
+                    path: "assignments",
+                    name: "assignments",
+                    meta: {
+                        title: "活动作业",
+                        isAdmin: true,
+                    },
+                    children: [
+                        {
+                            path: "assignment_list",
+                            name: "assignment_list",
+                            meta: {
+                                title: "作业列表"
+                            },
+                            component: () => import('../views/admin/assignment/assignment_list.vue'),
+                        }
+                    ]
+                },
             ]
         }
     ]

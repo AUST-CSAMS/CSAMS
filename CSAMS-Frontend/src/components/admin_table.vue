@@ -78,10 +78,11 @@
 </template>
 
 <script lang="ts" setup>
+import {dateTimeFormat} from "@/utils/date";
 import {IconRefresh} from "@arco-design/web-vue/es/icon";
 import {reactive, ref} from "vue";
 import type {Component} from "vue";
-import type {baseResponse, listDataType} from "@/api";
+import {type baseResponse, defaultDeleteApi, type listDataType} from "@/api";
 import type {paramsType} from "@/api";
 import type {TableColumnData, TableRowSelection} from "@arco-design/web-vue";
 import {Message} from "@arco-design/web-vue";
@@ -194,13 +195,31 @@ function edit(record: RecordType<any>) {
 // 从列表页的api里面匹配路径
 const urlRegex = /\.get\("(.*?)",/
 
+
+// 删除单个
 async function remove(record: RecordType<any>) {
   let id = record[rowKey]
-  await removeIdData([id])
+  removeIdData([id])
 }
 
-//根据正则表达式匹配不同的删除api
+// 批量删除
 async function removeIdData(idList: (number | string)[]) {
+  if (props.defaultDelete) {
+    let regexResult = urlRegex.exec(props.url.toString())
+    if (regexResult === null || regexResult.length !== 2) {
+      return
+    }
+    let res = await defaultDeleteApi(regexResult[1], idList)
+    if (res.code) {
+      Message.error(res.msg)
+      return
+    }
+    Message.success(res.msg)
+    selectedKeys.value = []
+    getList()
+    return;
+  }
+  emits("remove", idList)
 }
 
 const data = reactive<listDataType<any>>({
@@ -230,6 +249,8 @@ async function getList(p?: paramsType & any) {
   }
   data.list = res.data.list
   data.count = res.data.count
+  console.log(1)
+  console.log(data)
 }
 
 function pageChange() {
