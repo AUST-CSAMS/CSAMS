@@ -8,12 +8,12 @@ import (
 )
 
 type ActivityInfoRequest struct {
-	ID uint64 `json:"id" bind:"required"` // 活动id
+	ID uint64 `json:"id" form:"id" uri:"id"` // 活动id
 }
 
 func (ActivityApi) ActivityInfoView(c *gin.Context) {
 	var cr ActivityInfoRequest
-	if err := c.ShouldBindJSON(&cr); err != nil {
+	if err := c.ShouldBindUri(&cr); err != nil {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}

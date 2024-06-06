@@ -55,27 +55,32 @@ func (ActivityApi) ActivityJoinView(c *gin.Context) {
 		return
 	}
 
-	activityLog := models.ActivityLogModel{
+	// 是否已经报名
+	err = global.DB.Take(&models.ActivityLogModel{}, "activity_id = ? AND user_id = ?", cr.ID, claims.UserID).Error
+	if err == nil {
+		res.FailWithMessage("用户已经报名", c)
+		return
+	}
+
+	// 使用ORM保存ActivityLogModel实例并进行关联
+	err = global.DB.Create(&models.ActivityLogModel{
 		ActivityID: cr.ID,
 		UserID:     claims.UserID,
-	}
-	// 使用ORM保存ActivityLogModel实例并进行关联
-	err = global.DB.Create(&activityLog).Error
+	}).Error
 	if err != nil {
 		res.FailWithMessage("添加活动记录失败", c)
 		return
 	}
 	res.OkWithMessage("添加活动记录成功", c)
 
-	assignment := models.AssignmentModel{
+	// 使用ORM保存AssignmentModel实例并进行关联
+	err = global.DB.Create(&models.AssignmentModel{
 		ActivityID: cr.ID,
 		UserID:     claims.UserID,
 		IsSubmit:   false,
 		IsFinish:   false,
 		IsCorrect:  false,
-	}
-	// 使用ORM保存AssignmentModel实例并进行关联
-	err = global.DB.Create(&assignment).Error
+	}).Error
 	if err != nil {
 		res.FailWithMessage("添加作业失败", c)
 		return

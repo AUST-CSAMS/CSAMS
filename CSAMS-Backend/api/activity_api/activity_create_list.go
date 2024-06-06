@@ -6,6 +6,7 @@ import (
 	"CSAMS-Backend/models/res"
 	"CSAMS-Backend/service/common"
 	"CSAMS-Backend/utils/jwts"
+	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,7 +39,8 @@ func (ActivityApi) ActivityCreatedListView(c *gin.Context) {
 		activityIDs = append(activityIDs, aa.ActivityID)
 	}
 
-	query := global.DB.Where("activity_id IN (?)", activityIDs)
+	query := global.DB.Where("id IN (?)", activityIDs)
+	fmt.Println(activityIDs)
 
 	list, count, _ := common.ComList(models.ActivityModel{}, common.Option{
 		PageInfo: cr,

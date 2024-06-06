@@ -8,20 +8,19 @@ import (
 	"CSAMS-Backend/utils/jwts"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
 	"time"
 )
 
 type ActivityCreateRequest struct {
-	ID           uint64           `json:"id" binding:"required" msg:"请输入活动id"`              // 活动id
+	ID           uint64           `json:"id" binding:"required" msg:"请输入活动id"`            // 活动id
 	ActivityName string           `json:"activity_name" binding:"required" msg:"请输入活动名称"` // 活动名称
 	StartTime    string           `json:"startTime" binding:"required" msg:"请输入开始时间"`     // 开始时间
 	EndTime      string           `json:"endTime" binding:"required" msg:"请输入结束时间"`       // 结束时间
 	Location     string           `json:"location" binding:"required" msg:"请输入活动地点"`      // 活动地点
 	Introduction string           `json:"introduction" binding:"required" msg:"请输入活动简介"`  // 活动简介
-	Image        string           `json:"image" binding:"required"`                              //活动图片路径
+	Image        string           `json:"image" binding:"required"`                       //活动图片路径
 	Score        uint64           `json:"score" binding:"required" msg:"请输入活动积分"`         // 活动积分
-	Limit        ctype.MajorArray `json:"limit"`                                                 // 专业限制
+	Limit        ctype.MajorArray `json:"limit"`                                          // 专业限制
 }
 
 func (ActivityApi) ActivityCreateView(c *gin.Context) {
@@ -61,6 +60,13 @@ func (ActivityApi) ActivityCreateView(c *gin.Context) {
 		return
 	}
 
+	var associationMemberModel models.AssociationMemberModel
+	err = global.DB.Take(&associationMemberModel, claims.UserID).Error
+	if err != nil {
+		res.FailWithMessage("未创建协会", c)
+		return
+	}
+
 	// 入库
 	err = global.DB.Create(&models.ActivityModel{
 		ID:                cr.ID,
@@ -74,14 +80,16 @@ func (ActivityApi) ActivityCreateView(c *gin.Context) {
 		Tel:               userInfo.Tel,
 		Score:             cr.Score,
 		Limit:             cr.Limit,
+		ActivityAssociation: []models.ActivityAssociationModel{models.ActivityAssociationModel{
+			ActivityID:    cr.ID,
+			AssociationID: associationMemberModel.AssociationID,
+		}},
 	}).Error
 
 	if err != nil {
-		log.Print(err)
 		res.FailWithMessage(fmt.Sprintf("活动%s创建失败!", cr.ActivityName), c)
 		return
 	}
 	res.OkWithMessage(fmt.Sprintf("活动%s创建成功!", cr.ActivityName), c)
-
 	return
 }

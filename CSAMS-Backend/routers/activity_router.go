@@ -13,7 +13,7 @@ func (router RouterGroup) ActivityRouter() {
 	router.POST("activities", middleware.JwtTeacher(), app.ActivityCreateView)
 	router.GET("activities", middleware.JwtAuth(), app.ActivityListView)
 	router.GET("activities_create", middleware.JwtTeacher(), app.ActivityCreatedListView)
-	router.GET("activity_info", app.ActivityInfoView)
+	router.GET("activity_info/:id", app.ActivityInfoView)
 	router.POST("activities/join", middleware.JwtAuth(), app.ActivityJoinView)
 	router.PUT("activities/end", middleware.JwtTeacher(), app.ActivityEndView)
 }

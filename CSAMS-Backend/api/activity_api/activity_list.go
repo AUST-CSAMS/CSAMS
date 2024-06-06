@@ -32,7 +32,7 @@ func (ActivityApi) ActivityListView(c *gin.Context) {
 	}
 
 	// ActivityModel 表获取所有含有相同 ActivityID 的记录
-	query := global.DB.Where("activity_id IN (?)", activityIDs)
+	query := global.DB.Where("id IN (?)", activityIDs)
 
 	list, count, _ := common.ComList(models.ActivityModel{}, common.Option{
 		PageInfo: cr,
