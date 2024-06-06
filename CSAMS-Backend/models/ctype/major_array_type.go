@@ -44,3 +44,11 @@ func (m *MajorArray) UnmarshalJSON(data []byte) error {
 	*m = toMajorArray(sa)
 	return nil
 }
+
+func toMajorArray(sa []string) MajorArray {
+	var ma MajorArray
+	for _, s := range sa {
+		ma = append(ma, toMajor(s))
+	}
+	return ma
+}
