@@ -5,6 +5,7 @@ import (
 	"CSAMS-Backend/models"
 	"CSAMS-Backend/models/res"
 	"CSAMS-Backend/utils/jwts"
+	"github.com/fatih/structs"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -32,7 +33,22 @@ func (AssignmentApi) AssignmentSubmitView(c *gin.Context) {
 		return
 	}
 
-	err = global.DB.Model(&assignmentModel).Update("content", cr.Content).Error
+	err = global.DB.Take(&assignmentModel, "activity_id = ? AND user_id = ? AND is_correct = ?", cr.ID, claims.UserID, true).Error
+	if err == nil {
+		log.Print(err)
+		res.FailWithMessage("作业已被批改", c)
+		return
+	}
+
+	maps := structs.Map(&struct {
+		Content  string
+		IsSubmit bool
+	}{
+		Content:  cr.Content,
+		IsSubmit: true,
+	})
+
+	err = global.DB.Model(&assignmentModel).Updates(maps).Error
 	if err != nil {
 		log.Print(err)
 		res.FailWithMessage("作业提交失败", c)
