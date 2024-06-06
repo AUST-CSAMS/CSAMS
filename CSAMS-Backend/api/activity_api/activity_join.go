@@ -65,18 +65,6 @@ func (ActivityApi) ActivityJoinView(c *gin.Context) {
 		res.FailWithMessage("添加活动记录失败", c)
 		return
 	}
-	// 使用Association方法关联ActivityModel
-	err = global.DB.Model(&activityLog).Association("Activity").Append(&models.ActivityModel{ID: cr.ID})
-	if err != nil {
-		res.FailWithMessage("关联ActivityModel失败", c)
-		return
-	}
-	// 使用Association方法关联UserModel
-	err = global.DB.Model(&activityLog).Association("User").Append(&models.UserModel{ID: claims.UserID})
-	if err != nil {
-		res.FailWithMessage("关联UserModel失败", c)
-		return
-	}
 	res.OkWithMessage("添加活动记录成功", c)
 
 	assignment := models.AssignmentModel{
@@ -90,18 +78,6 @@ func (ActivityApi) ActivityJoinView(c *gin.Context) {
 	err = global.DB.Create(&assignment).Error
 	if err != nil {
 		res.FailWithMessage("添加作业失败", c)
-		return
-	}
-	// 使用Association方法关联ActivityModel
-	err = global.DB.Model(&assignment).Association("Activity").Append(&models.ActivityModel{ID: cr.ID})
-	if err != nil {
-		res.FailWithMessage("关联ActivityModel失败", c)
-		return
-	}
-	// 使用Association方法关联UserModel
-	err = global.DB.Model(&assignment).Association("User").Append(&models.UserModel{ID: claims.UserID})
-	if err != nil {
-		res.FailWithMessage("关联UserModel失败", c)
 		return
 	}
 	res.OkWithMessage("添加作业成功", c)
