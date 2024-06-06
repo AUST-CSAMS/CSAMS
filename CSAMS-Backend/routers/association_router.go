@@ -11,7 +11,7 @@ func (router RouterGroup) AssociationRouter() {
 	router.POST("associations", middleware.JwtTeacher(), app.AssociationCreateView)
 	router.GET("associations", app.AssociationListView)
 	router.GET("associations/member", middleware.JwtAuth(), app.AssociationMemberListView)
-	router.PUT("associations/manage", middleware.JwtTeacher(), app.AssociationManageView)
-	router.POST("associations/join", middleware.JwtStudentAdmin(), app.AssociationJoinView)
-	router.DELETE("associations/quit", middleware.JwtStudentAdmin(), app.AssociationQuitView)
+	router.PUT("associations/member", middleware.JwtTeacher(), app.AssociationManageView)
+	router.POST("associations/member", middleware.JwtStudentAdmin(), app.AssociationJoinView)
+	router.DELETE("associations/member", middleware.JwtStudentAdmin(), app.AssociationQuitView)
 }

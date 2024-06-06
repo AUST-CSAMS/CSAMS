@@ -10,7 +10,7 @@ import (
 )
 
 type AssociationQuitRequest struct {
-	ID uint64 `json:"id" binding:"required"` // 学号
+	IDs []uint64 `json:"id" binding:"required"` // 学号
 }
 
 func (AssociationApi) AssociationQuitView(c *gin.Context) {
@@ -32,17 +32,18 @@ func (AssociationApi) AssociationQuitView(c *gin.Context) {
 		return
 	}
 
-	var associationMember models.AssociationMemberModel
-
-	err = global.DB.Take(&associationMember, cr.ID).Error
-	if err != nil {
-		print(err)
-		res.FailWithMessage("成员查找失败", c)
-	}
-	err = global.DB.Delete(&associationMember).Error
-	if err != nil {
-		print(err)
-		res.FailWithMessage("成员删除失败", c)
+	for _, id := range cr.IDs {
+		var associationMember models.AssociationMemberModel
+		err = global.DB.Take(&associationMember, id).Error
+		if err != nil {
+			print(err)
+			res.FailWithMessage("成员查找失败", c)
+		}
+		err = global.DB.Delete(&associationMember).Error
+		if err != nil {
+			print(err)
+			res.FailWithMessage("成员删除失败", c)
+		}
 	}
 	res.OkWithMessage("成员删除成功", c)
 }
