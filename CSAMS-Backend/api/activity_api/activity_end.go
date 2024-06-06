@@ -34,6 +34,13 @@ func (ActivityApi) ActivityEndView(c *gin.Context) {
 		return
 	}
 
+	var assignment models.AssignmentModel
+	err = global.DB.Take(&assignment, "activity_id = ? AND is_correct = ?", cr.ID, false).Error
+	if err == nil {
+		res.FailWithMessage("作业未批改完，活动不能截止", c)
+		return
+	}
+
 	// 未提交作业，扣诚信度
 	var assignmentsNotSubmit []models.AssignmentModel
 	var userIDsNotSubmit []uint64
