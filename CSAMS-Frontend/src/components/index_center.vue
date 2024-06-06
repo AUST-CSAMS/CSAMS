@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div class="index_container">
     <div class="title">正在进行的活动</div>
     <div class="activity_source">
       <div v-for="item in data.list" class="item">
-        <a :href="`/activities/${item.id}`" v-html="item.title"></a>
+        <a :href="`/activities/${item.id}`" v-html="item.activity_name"></a>
       </div>
     </div>
   </div>
@@ -11,12 +11,11 @@
 
 <script lang="ts" setup>
 import type {listDataType, paramsType} from "@/api";
-import {activityListApi, type activityRequest,} from "@/api/activity_api";
+import {activityOngoingListApi, type activityRequest,} from "@/api/activity_api";
 import {reactive} from "vue";
 
 const params = reactive<paramsType>({
   key: ""
-
 })
 
 const data = reactive<listDataType<activityRequest>>({
@@ -28,7 +27,7 @@ async function getData(p?: paramsType) {
   if (p) {
     Object.assign(params, p)
   }
-  let res = await activityListApi(params)
+  let res = await activityOngoingListApi(params)
   data.list = res.data.list
   data.count = res.data.count
 }
@@ -38,7 +37,7 @@ getData()
 </script>
 
 <style lang="scss">
-.container {
+.index_container {
   width: 360px;
   border: rgb(11, 196, 221) solid 5px;
   border-radius: 20px;

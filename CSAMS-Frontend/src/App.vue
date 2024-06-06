@@ -3,7 +3,11 @@
 </template>
 
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import {RouterView} from 'vue-router'
+import {useStore} from "@/stores";
+
+const store = useStore()
+store.loadToken()
 </script>
 

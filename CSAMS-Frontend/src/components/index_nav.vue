@@ -4,6 +4,7 @@
       <div class="nav_left">
         <div class="logo">安徽理工大学协会管理系统</div>
         <div class="nav_item">首页</div>
+        <router-link :to="{name: 'association'}" class="nav_item">协会列表</router-link>
         <index_search></index_search>
       </div>
       <div class="nav_right">
@@ -22,6 +23,7 @@
 import {useStore} from "@/stores";
 import User_info_menu from "@/components/user_info_menu.vue";
 import Index_search from "@/components/index_search.vue";
+import association from "@/views/web/association.vue";
 
 const store = useStore();
 </script>
@@ -49,6 +51,8 @@ const store = useStore();
 
       .nav_item {
         margin-right: 20px;
+        text-decoration: none;
+
       }
 
       .logo {

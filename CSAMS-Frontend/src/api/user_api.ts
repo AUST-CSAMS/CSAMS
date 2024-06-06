@@ -2,17 +2,45 @@ import type {baseResponse, paramsType, listDataType} from "@/api/index";
 import {useAxios} from "@/api/index";
 
 export interface loginType {
-    user_name: string
+    id: string
     password: string
 }
 
-export function loginApi(request: loginType): Promise<baseResponse<string>> {
+export interface loginFormType {
+    id: number
+    password: string
+}
+
+export function loginApi(request: loginFormType): Promise<baseResponse<string>> {
     return useAxios.post("/api/login", request)
 }
 
-export function enrollApi(request: loginType): Promise<baseResponse<string>> {
-    return useAxios.post("/api/enroll", request)
+export interface registerType {
+    "id": string,
+    "password": string,
+    "name": string,
+    "age": string,
+    "gender": string,
+    "role": string,
+    "major": string,
+    "tel": string
 }
+
+export interface registerFormType {
+    "id": number,
+    "password": string,
+    "name": string,
+    "age": number,
+    "gender": string,
+    "role": number,
+    "major": string,
+    "tel": number
+}
+
+export function registerApi(request: registerFormType): Promise<baseResponse<string>> {
+    return useAxios.post("/api/register", request)
+}
+
 
 export function logoutApi(): Promise<baseResponse<string>> {
     return useAxios.post("/api/logout")
@@ -20,17 +48,17 @@ export function logoutApi(): Promise<baseResponse<string>> {
 
 export interface userInfoType {
     id: number
-    user_name: string
     password: string
+    name: string
     age: number
     gender: string
-    major: string
     avatar: string
-    tel: string
-    token: string
-    role: number
+    role: string
+    major: number
+    tel: number
     integrity: number
     score: number
+    associationID: number
 }
 
 export function userInfoApi(): Promise<baseResponse<userInfoType>> {
@@ -43,21 +71,25 @@ export function userListApi(params: paramsType): Promise<baseResponse<listDataTy
 }
 
 export interface memberCreateRequest {
-    role: number
+    id: number
+}
+
+export interface memberCreateFormRequest {
     id: string
 }
 
 export function memberCreateApi(data: memberCreateRequest): Promise<baseResponse<string>> {
-    return useAxios.post("/api/association/member", data)
+    return useAxios.post("/api/associations/join", data)
 }
 
 
 export interface memberUpdateRequest {
-    role: number
+    id: number
+    posts: string
 }
 
 export function memberUpdateApi(data: memberUpdateRequest): Promise<baseResponse<string>> {
-    return useAxios.put("/api/user_role", data)
+    return useAxios.put("/api/associations/manage", data)
 }
 
 export interface userInfoUpdateType {
@@ -65,7 +97,7 @@ export interface userInfoUpdateType {
 }
 
 export function userInfoUpdateApi(data: userInfoUpdateType): Promise<baseResponse<string>> {
-    return useAxios.put("/api/user_info", data)
+    return useAxios.put("/api/user_avatar", data)
 }
 
 export interface userUpdatePasswordType {

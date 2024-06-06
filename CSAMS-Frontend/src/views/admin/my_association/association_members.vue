@@ -1,69 +1,70 @@
 <template>
-  <div>
+  <div v-if="store.isTeacher">
     <user_create v-model:visible="visible" @ok="createOk"></user_create>
     <a-modal v-model:visible="updateVisible" :on-before-ok="updateUserOk" title="编辑成员">
       <a-form ref="formRef" :model="updateMemberForm">
-        <a-form-item field="role" label="权限">
-          <a-select v-model="updateMemberForm.role" :options="roleOptions" placeholder="选择角色"></a-select>
+        <a-form-item field="id" label="id">
+          <a-input-number v-model="updateMemberForm.id" placeholder="id"></a-input-number>
+        </a-form-item>
+        <a-form-item field="posts" label="职位">
+          <a-input v-model="updateMemberForm.posts" placeholder="职位"></a-input>
         </a-form-item>
       </a-form>
     </a-modal>
     <admin_table
       ref="adminTable"
       :columns="columns"
-      :url="userListApi"
+      :url="associationMemberListApi"
       add-label="创建成员"
       default-delete
       no-confirm
-      search-placeholder="搜索成员"
+      no-search
       @add="visible=true"
       @edit="edit">
-      <template #avatar="{record}:{record: userInfoType}">
-        <a-avatar :imageUrl="record.avatar"></a-avatar>
-      </template>
+    </admin_table>
+  </div>
+  <div v-else>
+    <admin_table
+      ref="adminTable"
+      :columns="columns"
+      :url="associationMemberListApi"
+      no-add
+      no-confirm
+      no-delete
+      no-edit
+      no-search
+      @add="visible=true">
     </admin_table>
   </div>
 </template>
 
 <script lang="ts" setup>
 import Admin_table from "@/components/admin_table.vue";
-import {memberUpdateApi, type memberUpdateRequest, userListApi} from "@/api/user_api";
-import type {userInfoType} from "@/api/user_api";
+import {memberUpdateApi, type memberUpdateRequest} from "@/api/user_api";
 import type {RecordType} from "@/components/admin_table.vue";
 import {reactive, ref} from "vue";
 import User_create from "@/components/user_create.vue";
 import {Message} from "@arco-design/web-vue";
 import {useStore} from "@/stores";
+import {associationMemberListApi} from "@/api/association_api";
 
 const store = useStore()
 
 
 let columns = [
-  {title: '用户名', dataIndex: 'nick_name'},
-  {title: '头像', slotName: 'avatar'},
-  {title: '学号', dataIndex: 'number'},
-  {title: '角色', dataIndex: 'role'},
-  {title: '专业', dataIndex: 'major'},
+  {title: 'id', dataIndex: 'user_id'},
+  {title: '职位', dataIndex: 'posts'},
   {title: '加入时间', slotName: 'created_at'},
   {title: '操作', slotName: 'action'},
 ]
 
 if (store.isGeneral) {
   columns = [
-    {title: '用户名', dataIndex: 'nick_name'},
-    {title: '头像', slotName: 'avatar'},
-    {title: '学号', dataIndex: 'number'},
-    {title: '角色', dataIndex: 'role'},
-    {title: '专业', dataIndex: 'major'},
+    {title: 'id', dataIndex: 'user_id'},
+    {title: '职位', dataIndex: 'posts'},
     {title: '加入时间', slotName: 'created_at'},
   ]
 }
-
-const roleOptions = [
-  {label: "普通用户", value: 1},
-  {label: "管理员", value: 2},
-  {label: "教职工", value: 3},
-]
 
 
 const visible = ref(false)
@@ -77,11 +78,11 @@ function createOk() {
 const updateVisible = ref(false)
 
 const updateMemberForm = reactive<memberUpdateRequest>({
-  role: 0,
+  id: 0,
+  posts: "",
 })
 
 function edit(record: RecordType<memberUpdateRequest>): void {
-  updateMemberForm.role = record.role
   updateVisible.value = true
 }
 

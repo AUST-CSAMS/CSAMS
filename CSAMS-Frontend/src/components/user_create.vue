@@ -4,13 +4,10 @@
              @cancel="emits('update:visible', false)">
       <a-form ref="formRef" :model="form">
         <a-form-item :rules="[{required:true,message:'请输入用户id'}]" :validate-trigger="['blur']"
-                     field="user_name"
+                     field="id"
                      label="用户id"
         >
           <a-input v-model="form.id" placeholder="id"></a-input>
-        </a-form-item>
-        <a-form-item field="role" label="权限">
-          <a-select v-model="form.role" :options="roleOptions" placeholder="选择角色"></a-select>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -18,7 +15,7 @@
 </template>
 <script lang="ts" setup>
 import {reactive, ref} from "vue";
-import {memberCreateApi, type memberCreateRequest} from "@/api/user_api";
+import {memberCreateApi, type memberCreateFormRequest, type memberCreateRequest} from "@/api/user_api";
 import {Message} from "@arco-design/web-vue";
 
 const props = defineProps({
@@ -31,28 +28,24 @@ const emits = defineEmits(["update:visible", "ok"])
 
 const defaultForm = {
   id: "",
-  role: 1
 }
 
-const form = reactive<memberCreateRequest>({
-  role: 1,
+const form = reactive<memberCreateFormRequest>({
   id: ""
 })
 
 const formRef = ref()
-
-const roleOptions = [
-  {label: "普通用户", value: 1},
-  {label: "管理员", value: 2},
-  {label: "教师", value: 3},
-]
 
 
 async function createMember() {
   let val = await formRef.value.validate()
   if (val) return false
 
-  let res = await memberCreateApi(form)
+  let createform: memberCreateRequest = {
+    id: parseInt(form.id),
+  }
+  console.log(form.id)
+  let res = await memberCreateApi(createform)
   if (res.code) {
     Message.error(res.msg)
     return

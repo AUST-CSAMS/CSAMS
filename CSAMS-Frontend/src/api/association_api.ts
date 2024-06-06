@@ -1,22 +1,21 @@
-import {type baseResponse, useAxios} from "@/api/index";
+import {type baseResponse, type listDataType, type paramsType, useAxios} from "@/api/index";
 
 export interface associationInfoType {
-    name: string
-    avatar: string
+    id: number
+    association_name: string
     create_at: string
-    teacher: string
+    teacher_name: string
     president: string
     introduction: string
 }
 
 export function associationInfoApi(): Promise<baseResponse<associationInfoType>> {
-    return useAxios.get("/api/association")
+    return useAxios.get("/api/association_info")
 }
 
 
 export interface associationInfoUpdateType {
     name: string
-    avatar: string
     teacher: string
     president: string
     introduction: string
@@ -25,3 +24,37 @@ export interface associationInfoUpdateType {
 export function associationInfoUpdateApi(data: associationInfoUpdateType): Promise<baseResponse<string>> {
     return useAxios.put("/api/association", data)
 }
+
+export function associationListApi(params: paramsType): Promise<baseResponse<listDataType<associationInfoType>>> {
+    return useAxios.get("/api/associations", {params})
+}
+
+export interface associationCreateType {
+    id: number
+    association_name: string
+    introduction: string
+}
+
+export interface associationCreateFormType {
+    id: string
+    association_name: string
+    introduction: string
+}
+
+export function associationCreateApi(data: associationCreateType): Promise<baseResponse<string>> {
+    return useAxios.post("/api/associations", data)
+}
+
+export interface associationMemberType {
+    user_id: number
+    association_id: number
+    posts: string
+    joining_time: string
+
+}
+
+
+export function associationMemberListApi(params?: paramsType): Promise<baseResponse<listDataType<associationMemberType>>> {
+    return useAxios.get("/api/associations/member", {params: params})
+}
+

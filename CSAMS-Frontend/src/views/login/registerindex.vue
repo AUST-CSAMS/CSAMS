@@ -1,14 +1,14 @@
 <template>
-  <div class="login">
-    <div class="login_mask">
-      <login @ok="ok"></login>
+  <div class="register">
+    <div class="register_mask">
+      <register @ok="ok"></register>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import Login from "@/views/login/login.vue";
 import router from "@/router";
+import Register from "@/views/login/register.vue";
 
 
 function ok() {
@@ -23,12 +23,12 @@ function ok() {
 </script>
 
 <style lang="scss">
-.login {
+.register {
   background: url(/image/天空.jpg) 50%/cover no-repeat;
   width: 100%;
   height: 100vh;
 
-  .login_mask {
+  .register_mask {
     position: absolute;
     right: 0;
     width: 400px;

@@ -2,7 +2,7 @@
   <div class="index_view">
     <index_nav></index_nav>
     <main>
-      <div class="index_container">
+      <div class="index_web_container">
         <index_left></index_left>
         <index_center></index_center>
         <index_right></index_right>
@@ -33,7 +33,7 @@ import Index_center from "@/components/index_center.vue";
     display: flex;
     height: 622px;
 
-    .index_container {
+    .index_web_container {
       width: 1200px;
       display: flex;
     }

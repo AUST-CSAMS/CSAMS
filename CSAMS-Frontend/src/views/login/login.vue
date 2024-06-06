@@ -2,11 +2,11 @@
   <Form ref="formRef" :label-col-props="{span: 0}" :model="form" :wrapper-col-props="{span: 24}"
         class="login_form">
     <div class="title">用户登录</div>
-    <FormItem :rules="[{required:true,message:'请输入用户名'}]" :validate-trigger="['blur']"
-              field="user_name"
-              label="用户名"
+    <FormItem :rules="[{required:true,message:'请输入id'}]" :validate-trigger="['blur']"
+              field="id"
+              label="id"
     >
-      <Input v-model="form.user_name" placeholder="用户名">
+      <Input v-model="form.id" placeholder="id">
         <template #prefix>
           <icon-user/>
         </template>
@@ -24,7 +24,7 @@
     </FormItem>
     <Button type="primary" @click="login">登录</Button>
     <Button type="secondary">
-      <router-link to="enroll">注册</router-link>
+      <router-link :to="{name: 'register'}">注册</router-link>
     </Button>
   </Form>
 </template>
@@ -33,16 +33,17 @@
 import {IconLock, IconUser} from "@arco-design/web-vue/es/icon";
 import {reactive, ref} from "vue";
 import {Form, FormItem, Input, Button, Message} from "@arco-design/web-vue";
-import {loginApi, type loginType} from "@/api/user_api";
+import {loginApi, type loginFormType, type loginType} from "@/api/user_api";
 import {useStore} from "@/stores";
 
 const emits = defineEmits(["ok"])
 const store = useStore()
 
 const form = reactive<loginType>({
-  user_name: "",
+  id: "",
   password: "",
 })
+
 
 const formRef = ref()
 
@@ -60,7 +61,12 @@ async function login() {
   if (val) {
     return
   }
-  let res = await loginApi(form)
+  let loginform: loginFormType = {
+    id: parseInt(form.id),
+    password: form.password,
+  }
+
+  let res = await loginApi(loginform)
   if (res.code) {
     Message.error(res.msg)
     return
