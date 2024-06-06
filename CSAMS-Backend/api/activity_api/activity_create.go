@@ -71,8 +71,8 @@ func (ActivityApi) ActivityCreateView(c *gin.Context) {
 	err = global.DB.Create(&models.ActivityModel{
 		ID:                cr.ID,
 		ActivityName:      cr.ActivityName,
-		StartTime:         startTime,
-		EndTime:           endTime,
+		StartTime:         startTime.In(time.FixedZone("CST", 8*60*60)),
+		EndTime:           endTime.In(time.FixedZone("CST", 8*60*60)),
 		Location:          cr.Location,
 		Introduction:      cr.Introduction,
 		Image:             cr.Image,

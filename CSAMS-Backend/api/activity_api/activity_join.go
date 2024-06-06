@@ -29,12 +29,12 @@ func (ActivityApi) ActivityJoinView(c *gin.Context) {
 		return
 	}
 
-	if activity.EndTime.Before(time.Now()) {
+	if activity.EndTime.Before(time.Now().In(time.FixedZone("CST", 8*60*60))) {
 		res.FailWithMessage("活动已结束", c)
 		return
 	}
 
-	if activity.StartTime.After(time.Now()) {
+	if activity.StartTime.After(time.Now().In(time.FixedZone("CST", 8*60*60))) {
 		res.FailWithMessage("活动未开始", c)
 		return
 	}

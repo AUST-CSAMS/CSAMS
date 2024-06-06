@@ -54,7 +54,7 @@ func (AssociationApi) AssociationCreateView(c *gin.Context) {
 	err = global.DB.Create(&models.AssociationModel{
 		ID:              cr.ID,
 		AssociationName: cr.AssociationName,
-		CreateAt:        time.Now(),
+		CreateAt:        time.Now().In(time.FixedZone("CST", 8*60*60)),
 		TeacherName:     claims.Name,
 		TeacherID:       claims.UserID,
 		Introduction:    cr.Introduction,
@@ -68,10 +68,10 @@ func (AssociationApi) AssociationCreateView(c *gin.Context) {
 
 	// 更新协会成员表
 	err = global.DB.Create(&models.AssociationMemberModel{
-		UserID:        claims.UserID, // 将当前用户加入到关联表中
-		AssociationID: cr.ID,         // 写入协会id，这里表上面没关联，但是后端代码关联了
-		Posts:         "负责老师",        // 设置职位信息
-		JoiningTime:   time.Now(),    // 设置加入时间
+		UserID:        claims.UserID,                                 // 将当前用户加入到关联表中
+		AssociationID: cr.ID,                                         // 写入协会id，这里表上面没关联，但是后端代码关联了
+		Posts:         "负责老师",                                        // 设置职位信息
+		JoiningTime:   time.Now().In(time.FixedZone("CST", 8*60*60)), // 设置加入时间
 	}).Error
 	if err != nil {
 		res.FailWithMessage("添加关联成员失败", c)

@@ -6,7 +6,6 @@ import (
 	"CSAMS-Backend/models/res"
 	"CSAMS-Backend/service/common"
 	"github.com/gin-gonic/gin"
-	"time"
 )
 
 func (ActivityApi) ActivityFinishedListView(c *gin.Context) {
@@ -16,7 +15,7 @@ func (ActivityApi) ActivityFinishedListView(c *gin.Context) {
 		return
 	}
 
-	query := global.DB.Where("end_time < ?", time.Now())
+	query := global.DB.Where("end_time < CURRENT_TIMESTAMP")
 
 	list, count, _ := common.ComList(models.ActivityModel{}, common.Option{
 		PageInfo: cr,
