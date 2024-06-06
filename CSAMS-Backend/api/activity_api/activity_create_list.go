@@ -1,4 +1,4 @@
-package assignment_api
+package activity_api
 
 import (
 	"CSAMS-Backend/global"
@@ -9,8 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// AssignmentListView 负责教师批改作业的列表
-func (AssignmentApi) AssignmentListView(c *gin.Context) {
+func (ActivityApi) ActivityCreatedListView(c *gin.Context) {
 	var cr models.PageInfo
 	if err := c.ShouldBindQuery(&cr); err != nil {
 		res.FailWithCode(res.ArgumentError, c)
@@ -20,30 +19,28 @@ func (AssignmentApi) AssignmentListView(c *gin.Context) {
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
 
-	// 查询 AssociationModel 表获取 AssociationID
 	var association models.AssociationModel
-	err := global.DB.Take(&association, "teacher_id = ?", claims.UserID).Error
+	err := global.DB.Take(&association, "teacher_id", claims.UserID).Error
 	if err != nil {
-		res.FailWithMessage("教师没有创建协会", c)
+		res.FailWithMessage("未创建协会", c)
 		return
 	}
 
-	// 查询 ActivityAssociationModel 表获取含有相同 AssociationID 的 ActivityID 列表
-	var activityIDs []uint64
 	var activityAssociations []models.ActivityAssociationModel
 	err = global.DB.Where("association_id = ?", association.ID).Find(&activityAssociations).Error
 	if err != nil {
-		res.FailWithMessage("协会没有发布活动", c)
+		res.FailWithMessage("没有活动记录", c)
 		return
 	}
+
+	var activityIDs []uint64
 	for _, aa := range activityAssociations {
 		activityIDs = append(activityIDs, aa.ActivityID)
 	}
 
-	// AssignmentModel 表获取所有含有相同 ActivityID 的记录
-	query := global.DB.Where("activity_id IN (?) AND is_correct = ?", activityIDs, false)
+	query := global.DB.Where("activity_id IN (?)", activityIDs)
 
-	list, count, _ := common.ComList(models.AssignmentModel{}, common.Option{
+	list, count, _ := common.ComList(models.ActivityModel{}, common.Option{
 		PageInfo: cr,
 		Debug:    true,
 		Where:    query,

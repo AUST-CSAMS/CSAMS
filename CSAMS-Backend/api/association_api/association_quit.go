@@ -19,6 +19,7 @@ func (AssociationApi) AssociationQuitView(c *gin.Context) {
 		res.FailWithCode(res.ArgumentError, c)
 		return
 	}
+
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
 
