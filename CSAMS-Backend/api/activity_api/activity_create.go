@@ -84,6 +84,7 @@ func (ActivityApi) ActivityCreateView(c *gin.Context) {
 			ActivityID:    cr.ID,
 			AssociationID: associationMemberModel.AssociationID,
 		}},
+		IsEnd: false,
 	}).Error
 
 	if err != nil {

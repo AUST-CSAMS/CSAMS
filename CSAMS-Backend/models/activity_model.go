@@ -20,4 +20,5 @@ type ActivityModel struct {
 	Assignments         []AssignmentModel          `gorm:"foreignKey:ActivityID" json:"-"`
 	ActivityAssociation []ActivityAssociationModel `gorm:"foreignKey:ActivityID" json:"-"`
 	ActivityLog         []ActivityLogModel         `gorm:"foreignKey:ActivityID" json:"-"`
+	IsEnd               bool                       `json:"is_end"`
 }

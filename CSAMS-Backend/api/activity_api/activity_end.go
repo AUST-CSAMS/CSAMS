@@ -26,6 +26,11 @@ func (ActivityApi) ActivityEndView(c *gin.Context) {
 		return
 	}
 
+	if activity.IsEnd != false {
+		res.FailWithMessage("活动已经截止", c)
+		return
+	}
+
 	_claims, _ := c.Get("claims")
 	claims := _claims.(*jwts.CustomClaims)
 
@@ -69,6 +74,8 @@ func (ActivityApi) ActivityEndView(c *gin.Context) {
 		global.DB.Model(&models.UserModel{}).Where("id IN (?)", userIDs).Update("score", gorm.Expr("score + ?", activity.Score))
 
 	}
+
+	global.DB.Model(&activity).Update("is_end", true)
 
 	res.OkWithMessage("作业截止完成", c)
 }
