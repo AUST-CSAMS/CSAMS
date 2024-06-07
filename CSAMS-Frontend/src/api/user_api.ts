@@ -32,7 +32,7 @@ export interface registerFormType {
     "name": string,
     "age": number,
     "gender": string,
-    "role": number,
+    "role": string,
     "major": string,
     "tel": number
 }
@@ -79,7 +79,7 @@ export interface memberCreateFormRequest {
 }
 
 export function memberCreateApi(data: memberCreateRequest): Promise<baseResponse<string>> {
-    return useAxios.post("/api/associations/join", data)
+    return useAxios.post("/api/associations/member", data)
 }
 
 
@@ -89,7 +89,7 @@ export interface memberUpdateRequest {
 }
 
 export function memberUpdateApi(data: memberUpdateRequest): Promise<baseResponse<string>> {
-    return useAxios.put("/api/associations/manage", data)
+    return useAxios.put("/api/associations/member", data)
 }
 
 export interface userInfoUpdateType {

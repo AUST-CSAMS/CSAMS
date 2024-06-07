@@ -7,10 +7,10 @@
           <div class="head">
             <div class="title">{{ data.activity_name }}</div>
             <div class="date">
-              开始时间：{{ dateFormat(data.startTime) }}
+              开始时间：{{ dateTimeFormat(data.startTime) }}
             </div>
             <div class="date">
-              结束时间：{{ dateFormat(data.endTime) }}
+              结束时间：{{ dateTimeFormat(data.endTime) }}
             </div>
             <div class="date=">
               限制：{{ data.limit }}
@@ -27,7 +27,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {dateFormat} from "@/utils/date";
+import {dateFormat, dateTimeFormat} from "@/utils/date";
 import {MdPreview} from "md-editor-v3";
 import "md-editor-v3/lib/preview.css"
 import Index_nav from "@/components/index_nav.vue";
