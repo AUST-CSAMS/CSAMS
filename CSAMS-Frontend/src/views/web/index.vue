@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import Index_nav from "@/components/index_nav.vue";
 import Index_footer from "@/components/index_footer.vue";
 import Index_left from "@/components/index_left.vue";

@@ -57,11 +57,11 @@
               field="role"
               label="身份"
     >
-      <Input v-model="form.role" placeholder="身份">
+      <a-select v-model="form.role" :options="roleOptions" placeholder="身份">
         <template #prefix>
           <icon-lock/>
         </template>
-      </Input>
+      </a-select>
     </FormItem>
     <FormItem :rules="[{required:true,message:'请输入专业'}]" :validate-trigger="['blur']"
               field="password"
