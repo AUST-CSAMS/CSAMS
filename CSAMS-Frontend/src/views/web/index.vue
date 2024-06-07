@@ -24,7 +24,6 @@ import Index_center from "@/components/index_center.vue";
 
 <style lang="scss">
 .index_view {
-  background: url(/image/天空.jpg) 50%/cover no-repeat fixed;
   min-height: 100vh;
 
   main {

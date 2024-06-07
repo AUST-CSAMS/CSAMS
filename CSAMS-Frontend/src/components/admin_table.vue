@@ -199,7 +199,8 @@ const urlRegex = /\.get\("(.*?)",/
 // 删除单个
 async function remove(record: RecordType<any>) {
   let id = record[rowKey]
-  removeIdData([id])
+
+  await removeIdData([id])
 }
 
 // 批量删除
@@ -242,6 +243,7 @@ async function getList(p?: paramsType & any) {
   }
   isLoading.value = true
   let res = await props.url(params)
+  console.log(res)
   isLoading.value = false
   if (res.code) {
     Message.error(res.msg)

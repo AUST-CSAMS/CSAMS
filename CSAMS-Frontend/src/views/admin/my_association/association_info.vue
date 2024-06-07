@@ -5,20 +5,19 @@
       <a-form ref="formRef" :label-col-props="{span: 5}" :model="form"
               :wrapper-col-props="{span:19}">
         <a-form-item label="协会名">
-          <a-input v-model="form.association_name" @change="associationInfoUpdate"></a-input>
+          <a-input v-model="form.association_name"></a-input>
         </a-form-item>
         <a-form-item label="宣言">
-          <a-textarea v-model="form.introduction" :auto-size="{minRows: 3, maxRows: 3}" placeholder="简介"
-                      @change="associationInfoUpdate"></a-textarea>
+          <a-textarea v-model="form.introduction" :auto-size="{minRows: 3, maxRows: 3}" placeholder="简介"></a-textarea>
         </a-form-item>
         <a-form-item label="成立时间">
-          <span>{{ dateTimeFormat(form.create_at) }}</span>
+          <span v-if="form.create_at">{{ dateTimeFormat(form.create_at) }}</span>
         </a-form-item>
         <a-form-item label="会长">
-          <a-input v-model="form.president" @change="associationInfoUpdate"></a-input>
+          <a-input v-model="form.president"></a-input>
         </a-form-item>
         <a-form-item label="负责教师">
-          <a-input v-model="form.teacher_name" @change="associationInfoUpdate"></a-input>
+          <a-input v-model="form.teacher_name"></a-input>
         </a-form-item>
       </a-form>
     </div>
@@ -27,10 +26,9 @@
 
 <script lang="ts" setup>
 import {reactive, ref} from "vue";
-import {Message} from "@arco-design/web-vue";
 import {
   associationInfoApi,
-  type associationInfoType, associationInfoUpdateApi, type associationInfoUpdateType
+  type associationInfoType
 } from "@/api/association_api";
 import {dateTimeFormat} from "@/utils/date";
 
@@ -52,24 +50,6 @@ async function getData() {
   Object.assign(form, res.data)
   console.log(form)
 
-}
-
-async function associationInfoUpdate() {
-  let val = await formRef.value.validate()
-  if (val) return
-
-  let data: associationInfoUpdateType = {
-    name: form.association_name,
-    introduction: form.introduction,
-    teacher: form.teacher_name,
-    president: form.president,
-  }
-  let res = await associationInfoUpdateApi(data)
-  if (res.code) {
-    Message.error(res.msg)
-    return
-  }
-  Message.success(res.msg)
 }
 
 getData()

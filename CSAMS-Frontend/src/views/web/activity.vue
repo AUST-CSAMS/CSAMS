@@ -3,7 +3,8 @@
     <index_nav></index_nav>
     <main>
       <div class="container">
-        <div class="article_container">
+        <div class="act_container">
+          <img :src="data.image">
           <div class="head">
             <div class="title">{{ data.activity_name }}</div>
             <div class="date">
@@ -123,7 +124,7 @@ onMounted(() => {
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: var(--bg);
+    background: url() 50%/cover no-repeat;
     padding-top: 20px;
     padding-bottom: 20px;
     min-height: 83vh;
@@ -133,8 +134,12 @@ onMounted(() => {
       display: flex;
       justify-content: center;
 
-      .article_container {
-
+      .act_container {
+        img{
+          width: 500px;
+          height: 250px;
+          margin-left: 360px;
+        }
         .head {
           border-radius: 5px 5px 0 0;
           margin-bottom: 1px;

@@ -88,5 +88,9 @@ export function activityInfoApi(id: number): Promise<baseResponse<activityReques
     return useAxios.get("/api/activity_info/" + id)
 }
 
+export function activityEndApi(data: activityJoinType): Promise<baseResponse<activityRequest>> {
+    return useAxios.put("/api/activities/end", data)
+}
+
 
 
