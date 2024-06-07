@@ -107,6 +107,11 @@ const form = reactive<registerType>({
   tel: ""
 })
 
+const roleOptions = [
+  {label: "男", value: "男"},
+  {label: "女", value: "女"},
+]
+
 const formRef = ref()
 
 async function register() {

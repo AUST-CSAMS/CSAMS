@@ -15,8 +15,8 @@ export function activitySearchApi(params: paramsType): Promise<baseResponse<list
 export interface activityRequest {
     id: number
     activity_name: string
-    startTime: string
-    endTime: string
+    start_time: string
+    end_time: string
     location: string
     introduction: string
     image: string

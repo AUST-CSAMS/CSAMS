@@ -4,10 +4,6 @@
       <a-form ref="assignmentcorrectFormRef" :model="assignmentcorrectForm">
         <a-form-item :rules="[{required:true}]" :validate-trigger="['blur']"
         >
-          <a-input-number v-model="assignmentcorrectForm.id"></a-input-number>
-        </a-form-item>
-        <a-form-item :rules="[{required:true}]" :validate-trigger="['blur']"
-        >
           <a-select v-model="assignmentcorrectForm.is_finish" :options="roleOptions" placeholder="是否完成"></a-select>
         </a-form-item>
       </a-form>
@@ -20,8 +16,11 @@
       default-delete
       no-add
       no-confirm
-      no-search
-      @edit="edit">
+      no-edit
+      no-search>
+      <template #action_middle="{record}:{record:activityCorrectType }">
+        <a-button @click="correct(record.id)">批改</a-button>
+      </template>
     </admin_table>
   </div>
 </template>
@@ -34,6 +33,7 @@ import {
   assignmentListApi,
 } from "@/api/assignment_api";
 import {Message} from "@arco-design/web-vue";
+import type {activityRequest} from "@/api/activity_api";
 
 
 const roleOptions = [
@@ -76,7 +76,8 @@ async function correctOK() {
   Message.success(res.msg)
 }
 
-function edit(): void {
+function correct(id: number): void {
+  assignmentcorrectForm.id = id
   correctVisible.value = true
 }
 
