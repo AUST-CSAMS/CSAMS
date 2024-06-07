@@ -53,7 +53,7 @@ const (
 	ProcessEquipmentAndControlEngineering              Major = 43 // 过程装备与控制工程
 	HydrologyAndWaterResourcesEngineering              Major = 44 // 水文与水资源工程
 	RoboticsEngineering                                Major = 45 // 机器人工程
-	IntelligentScienceAndTechnology                    Major = 46 // 智能科学与技术
+	IntelligentScienceAndTechnology                    Major = 46 // "智能科学与技术"
 	Finance                                            Major = 47 // 金融学
 	ClinicalMedicine                                   Major = 48 // 临床医学
 	DataScienceAndBigDataTechnology                    Major = 49 // 数据科学与大数据技术

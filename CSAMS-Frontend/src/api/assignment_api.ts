@@ -36,5 +36,5 @@ export interface activityCorrectType {
 }
 
 export function assignmentCorrectApi(data: activityCorrectType): Promise<baseResponse<string>> {
-    return useAxios.put("assignments/correct", data)
+    return useAxios.put("/api/assignments/correct", data)
 }

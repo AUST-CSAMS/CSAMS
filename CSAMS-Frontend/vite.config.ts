@@ -20,7 +20,7 @@ export default defineConfig(({mode}) => {
         },
         server: {
             host: "0.0.0.0",
-            port: 80,
+            port: 81,
             proxy: {
                 "/api": {
                     target: serverUrl,

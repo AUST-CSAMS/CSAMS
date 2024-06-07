@@ -3,11 +3,11 @@
     <div class="article_list">
       <div v-for="item in data.list" class="item">
         <div>协会信息</div>
-        <div>协会名{{ item.name }}</div>
-        <div>宣言{{ item.introduction }}</div>
-        <div>教师{{ item.teacher_name }}</div>
-        <div>负责人{{ item.president }}</div>
-        <div>成立时间{{ item.create_at }}</div>
+        <div>协会名: {{ item.association_name }}</div>
+        <div>宣言: {{ item.introduction }}</div>
+        <div>教师: {{ item.teacher_name }}</div>
+        <div>会长: {{ item.president }}</div>
+        <div>成立时间: {{ dateTimeFormat(item.create_at) }}</div>
       </div>
     </div>
   </div>
@@ -19,6 +19,7 @@ import {
   type associationInfoType, associationListApi,
 } from "@/api/association_api";
 import type {listDataType, paramsType} from "@/api";
+import {dateTimeFormat} from "@/utils/date";
 
 const params = reactive<paramsType>({
   key: ""
@@ -46,7 +47,6 @@ getData()
 
 <style lang="scss">
 .main {
-  background: url(/image/天空.jpg) 50%/cover no-repeat fixed;
   min-height: 100vh;
 
   .article_list {

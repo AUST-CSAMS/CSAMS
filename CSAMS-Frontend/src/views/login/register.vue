@@ -57,11 +57,11 @@
               field="role"
               label="身份"
     >
-      <Input v-model="form.role" placeholder="身份">
+      <a-select v-model="form.role" :options="roleOptions" placeholder="身份">
         <template #prefix>
           <icon-lock/>
         </template>
-      </Input>
+      </a-select>
     </FormItem>
     <FormItem :rules="[{required:true,message:'请输入专业'}]" :validate-trigger="['blur']"
               field="password"
@@ -120,10 +120,9 @@ async function register() {
     name: form.name,
     age: parseInt(form.age),
     gender: form.gender,
-    role: parseInt(form.role),
+    role: form.role,
     major: form.major,
-    tel: parseInt(form.tel
-    )
+    tel: parseInt(form.tel)
   }
   let res = await registerApi(registerform)
   if (res.code) {

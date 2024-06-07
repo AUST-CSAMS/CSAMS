@@ -16,11 +16,15 @@
       :columns="columns"
       :url="associationMemberListApi"
       add-label="创建成员"
-      default-delete
       no-confirm
+      no-delete
       no-search
       @add="visible=true"
       @edit="edit">
+      <template #action_middle="{record}:{record: associationMemberType}">
+        <a-button type="secondary" @click="deletemember(record.user_id)">删除</a-button>
+      </template>
+
     </admin_table>
   </div>
   <div v-else>
@@ -46,7 +50,13 @@ import {reactive, ref} from "vue";
 import User_create from "@/components/user_create.vue";
 import {Message} from "@arco-design/web-vue";
 import {useStore} from "@/stores";
-import {associationMemberListApi} from "@/api/association_api";
+import {
+  type associationDeleteType,
+  associationMemberDeleteApi,
+  associationMemberListApi,
+  type associationMemberType
+} from "@/api/association_api";
+import type {activityJoinType, activityRequest} from "@/api/activity_api";
 
 const store = useStore()
 
@@ -102,5 +112,19 @@ async function updateUserOk() {
   return true
 }
 
+async function deletemember(id: number) {
+  let deleteform: associationDeleteType = {
+    id: [id]
+  }
+  console.log(deleteform)
+  let res = await associationMemberDeleteApi(deleteform)
+  if (res.code) {
+    Message.error(res.msg)
+    return
+  }
+  Message.success(res.msg)
+  await adminTable.value.getList()
+  return true
+}
 
 </script>

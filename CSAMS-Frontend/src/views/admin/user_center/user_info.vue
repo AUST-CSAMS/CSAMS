@@ -14,8 +14,8 @@
       <div>用户信息</div>
       <a-form ref="formRef" :label-col-props="{span: 5}" :model="form"
               :wrapper-col-props="{span:19}">
-        <a-form-item label="id">
-          <span>{{ form.id }}</span>
+        <a-form-item label="姓名">
+          <span>{{ form.name }}</span>
         </a-form-item>
         <a-form-item label="头像">
           <a-avatar :image-url="form.avatar" @click="showCropper"></a-avatar>

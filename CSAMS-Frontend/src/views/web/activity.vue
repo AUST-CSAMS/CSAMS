@@ -3,14 +3,15 @@
     <index_nav></index_nav>
     <main>
       <div class="container">
-        <div class="article_container">
+        <div class="act_container">
+          <img :src="data.image">
           <div class="head">
             <div class="title">{{ data.activity_name }}</div>
             <div class="date">
-              开始时间：{{ dateFormat(data.startTime) }}
+              开始时间：{{ dateTimeFormat(data.startTime) }}
             </div>
             <div class="date">
-              结束时间：{{ dateFormat(data.endTime) }}
+              结束时间：{{ dateTimeFormat(data.endTime) }}
             </div>
             <div class="date=">
               限制：{{ data.limit }}
@@ -27,7 +28,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {dateFormat} from "@/utils/date";
+import {dateFormat, dateTimeFormat} from "@/utils/date";
 import {MdPreview} from "md-editor-v3";
 import "md-editor-v3/lib/preview.css"
 import Index_nav from "@/components/index_nav.vue";
@@ -123,7 +124,7 @@ onMounted(() => {
     width: 100%;
     display: flex;
     justify-content: center;
-    background-color: var(--bg);
+    background: url() 50%/cover no-repeat;
     padding-top: 20px;
     padding-bottom: 20px;
     min-height: 83vh;
@@ -133,8 +134,12 @@ onMounted(() => {
       display: flex;
       justify-content: center;
 
-      .article_container {
-
+      .act_container {
+        img{
+          width: 500px;
+          height: 250px;
+          margin-left: 360px;
+        }
         .head {
           border-radius: 5px 5px 0 0;
           margin-bottom: 1px;

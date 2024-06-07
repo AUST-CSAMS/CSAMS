@@ -14,7 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import Index_nav from "@/components/index_nav.vue";
 import Index_footer from "@/components/index_footer.vue";
 import Index_left from "@/components/index_left.vue";
@@ -24,7 +23,6 @@ import Index_center from "@/components/index_center.vue";
 
 <style lang="scss">
 .index_view {
-  background: url(/image/天空.jpg) 50%/cover no-repeat fixed;
   min-height: 100vh;
 
   main {

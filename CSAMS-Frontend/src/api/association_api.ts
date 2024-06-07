@@ -21,9 +21,6 @@ export interface associationInfoUpdateType {
     introduction: string
 }
 
-export function associationInfoUpdateApi(data: associationInfoUpdateType): Promise<baseResponse<string>> {
-    return useAxios.put("/api/association", data)
-}
 
 export function associationListApi(params: paramsType): Promise<baseResponse<listDataType<associationInfoType>>> {
     return useAxios.get("/api/associations", {params})
@@ -56,5 +53,13 @@ export interface associationMemberType {
 
 export function associationMemberListApi(params?: paramsType): Promise<baseResponse<listDataType<associationMemberType>>> {
     return useAxios.get("/api/associations/member", {params: params})
+}
+
+export interface associationDeleteType {
+    id: number[]
+}
+
+export function associationMemberDeleteApi(data: associationDeleteType): Promise<baseResponse<string>> {
+    return useAxios.delete("/api/associations/member", {data})
 }
 

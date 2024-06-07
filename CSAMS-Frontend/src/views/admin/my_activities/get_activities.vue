@@ -14,6 +14,10 @@
       <template #image="{record}:{record: activityRequest}">
         <a-avatar :imageUrl="record.image"></a-avatar>
       </template>
+      <template #action_middle="{record}:{record: activityRequest}">
+        <a-button @click="quit(record.id)">活动截止</a-button>
+      </template>
+
     </admin_table>
   </div>
   <div v-else>
@@ -59,7 +63,13 @@ import Admin_table from "@/components/admin_table.vue";
 import {reactive, ref} from "vue";
 import {Message} from "@arco-design/web-vue";
 import Activity_create from "@/components/activity_create.vue";
-import {activityListApi, activityListTeacherApi, type activityRequest,} from "@/api/activity_api";
+import {
+  activityEndApi,
+  type activityJoinType,
+  activityListApi,
+  activityListTeacherApi,
+  type activityRequest,
+} from "@/api/activity_api";
 import {useStore} from "@/stores";
 import {
   assignmentSubmitApi, type assignmentSubmitFormType,
@@ -101,6 +111,18 @@ const assignmentFormRef = ref()
 
 function submit() {
   submitVisible.value = true
+}
+
+async function quit(id: number) {
+  let quitform: activityJoinType = {
+    id: id
+  }
+  let res = await activityEndApi(quitform)
+  if (res.code) {
+    Message.error(res.msg)
+    return
+  }
+  Message.success(res.msg)
 }
 
 async function submitassignment() {

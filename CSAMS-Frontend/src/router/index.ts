@@ -70,7 +70,7 @@ const router = createRouter({
                     ]
                 },
                 {
-                    path: "association",
+                    path: "associations",
                     name: "my_association",
                     meta: {
                         title: "我的协会",
@@ -86,7 +86,7 @@ const router = createRouter({
                             component: () => import('../views/admin/my_association/association_info.vue'),
                         },
                         {
-                            path: "association_members",
+                            path: "member",
                             name: "association_members",
                             meta: {
                                 title: "协会成员"

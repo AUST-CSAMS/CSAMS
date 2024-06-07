@@ -32,7 +32,7 @@ export interface registerFormType {
     "name": string,
     "age": number,
     "gender": string,
-    "role": number,
+    "role": string,
     "major": string,
     "tel": number
 }
