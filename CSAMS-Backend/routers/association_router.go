@@ -8,6 +8,7 @@ import (
 func (router RouterGroup) AssociationRouter() {
 	app := api.ApiGroupApp.AssociationApi
 	router.GET("association_info", middleware.JwtAuth(), app.AssociationInfoView)
+	router.PUT("associations", middleware.JwtTeacher(), app.AssociationUpdateView)
 	router.POST("associations", middleware.JwtTeacher(), app.AssociationCreateView)
 	router.GET("associations", app.AssociationListView)
 	router.GET("associations/member", middleware.JwtAuth(), app.AssociationMemberListView)
