@@ -108,8 +108,8 @@ const form = reactive<registerType>({
 })
 
 const roleOptions = [
-  {label: "男", value: "男"},
-  {label: "女", value: "女"},
+  {label: "老师", value: "老师"},
+  {label: "学生", value: "学生"},
 ]
 
 const formRef = ref()
