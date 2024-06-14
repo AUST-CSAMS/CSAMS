@@ -93,10 +93,6 @@ export interface actionOptionType {
   callback?: (idList: (number | string)[]) => Promise<boolean>
 }
 
-const roleOptions = [
-  {label: "男", value: "男"},
-  {label: "女", value: "女"},
-]
 
 interface Props {
   url: (params: paramsType) => Promise<baseResponse<listDataType<any>>> // 请求列表数据的api函数

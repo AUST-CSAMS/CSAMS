@@ -42,6 +42,15 @@ export function associationCreateApi(data: associationCreateType): Promise<baseR
     return useAxios.post("/api/associations", data)
 }
 
+export interface associationUpdateType {
+    association_name: string
+    introduction: string
+}
+
+export function associationUpdateApi(data: associationUpdateType): Promise<baseResponse<string>> {
+    return useAxios.post("/api/associations", data)
+}
+
 export interface associationMemberType {
     user_id: number
     association_id: number

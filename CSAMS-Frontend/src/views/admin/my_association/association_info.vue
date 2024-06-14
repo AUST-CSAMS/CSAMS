@@ -5,10 +5,11 @@
       <a-form ref="formRef" :label-col-props="{span: 5}" :model="form"
               :wrapper-col-props="{span:19}">
         <a-form-item label="协会名">
-          <a-input v-model="form.association_name"></a-input>
+          <a-input v-model="form.association_name" @change="associationInfoUpdate"></a-input>
         </a-form-item>
         <a-form-item label="宣言">
-          <a-textarea v-model="form.introduction" :auto-size="{minRows: 3, maxRows: 3}" placeholder="简介"></a-textarea>
+          <a-textarea v-model="form.introduction" :auto-size="{minRows: 3, maxRows: 3}" placeholder="简介"
+                      @change="associationInfoUpdate"></a-textarea>
         </a-form-item>
         <a-form-item label="成立时间">
           <span v-if="form.create_at">{{ dateTimeFormat(form.create_at) }}</span>
@@ -28,9 +29,10 @@
 import {reactive, ref} from "vue";
 import {
   associationInfoApi,
-  type associationInfoType
+  type associationInfoType, associationUpdateApi, type associationUpdateType
 } from "@/api/association_api";
 import {dateTimeFormat} from "@/utils/date";
+import {Message} from "@arco-design/web-vue";
 
 const formRef = ref()
 
@@ -53,6 +55,21 @@ async function getData() {
 }
 
 getData()
+
+async function associationInfoUpdate() {
+
+  let data: associationUpdateType = {
+    association_name: form.association_name,
+    introduction: form.introduction
+
+  }
+  let res = await associationUpdateApi(data)
+  if (res.code) {
+    Message.error(res.msg)
+    return
+  }
+  Message.success(res.msg)
+}
 
 
 </script>

@@ -4,14 +4,16 @@
     <main>
       <div class="container">
         <div class="act_container">
-          <img :src="data.image">
+          <div class="image">
+            <img :src="data.image" alt="">
+          </div>
           <div class="head">
             <div class="title">{{ data.activity_name }}</div>
             <div class="date">
-              开始时间：{{ dateTimeFormat(data.startTime) }}
+              开始时间：{{ dateTimeFormat(data.start_time) }}
             </div>
             <div class="date">
-              结束时间：{{ dateTimeFormat(data.endTime) }}
+              结束时间：{{ dateTimeFormat(data.end_time) }}
             </div>
             <div class="date=">
               限制：{{ data.limit }}
@@ -55,8 +57,8 @@ const id = ref<number>(parseInt(route.params.id as string))
 const data = reactive<activityRequest>({
   id: 0,
   activity_name: "",
-  startTime: "",
-  endTime: "",
+  start_time: "",
+  end_time: "",
   location: "",
   introduction: "",
   image: "",
@@ -68,10 +70,6 @@ const data = reactive<activityRequest>({
 
 async function getData() {
   let res = await activityInfoApi(id.value)
-  console.log(id.value)
-  console.log(res.code)
-  console.log(dateFormat(data.startTime))
-  console.log(data.startTime)
   if (res.code) {
     Message.warning("活动不存在")
     return
@@ -124,7 +122,6 @@ onMounted(() => {
     width: 100%;
     display: flex;
     justify-content: center;
-    background: url() 50%/cover no-repeat;
     padding-top: 20px;
     padding-bottom: 20px;
     min-height: 83vh;
@@ -135,11 +132,18 @@ onMounted(() => {
       justify-content: center;
 
       .act_container {
-        img{
-          width: 500px;
-          height: 250px;
-          margin-left: 360px;
+
+        .image {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          img {
+            width: 500px;
+            height: 250px;
+          }
         }
+
         .head {
           border-radius: 5px 5px 0 0;
           margin-bottom: 1px;

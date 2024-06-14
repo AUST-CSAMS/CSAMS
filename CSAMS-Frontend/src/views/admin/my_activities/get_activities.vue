@@ -72,7 +72,7 @@ import {
 } from "@/api/activity_api";
 import {useStore} from "@/stores";
 import {
-  assignmentSubmitApi, type assignmentSubmitFormType,
+  assignmentSubmitApi,
   type assignmentSubmitType,
 } from "@/api/assignment_api";
 

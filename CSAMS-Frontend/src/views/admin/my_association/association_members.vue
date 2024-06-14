@@ -3,11 +3,8 @@
     <user_create v-model:visible="visible" @ok="createOk"></user_create>
     <a-modal v-model:visible="updateVisible" :on-before-ok="updateUserOk" title="编辑成员">
       <a-form ref="formRef" :model="updateMemberForm">
-        <a-form-item field="id" label="id">
-          <a-input-number v-model="updateMemberForm.id" placeholder="id"></a-input-number>
-        </a-form-item>
         <a-form-item field="posts" label="职位">
-          <a-input v-model="updateMemberForm.posts" placeholder="职位"></a-input>
+          <a-select v-model="updateMemberForm.posts" :options="roleOptions" placeholder="职位"></a-select>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -18,10 +15,13 @@
       add-label="创建成员"
       no-confirm
       no-delete
+      no-edit
       no-search
-      @add="visible=true"
-      @edit="edit">
+      @add="visible=true">
       <template #action_middle="{record}:{record: associationMemberType}">
+        <a-button type="primary" @click="editmember(record.user_id)">编辑</a-button>
+      </template>
+      <template #action_right="{record}:{record: associationMemberType}">
         <a-button type="secondary" @click="deletemember(record.user_id)">删除</a-button>
       </template>
 
@@ -56,10 +56,13 @@ import {
   associationMemberListApi,
   type associationMemberType
 } from "@/api/association_api";
-import type {activityJoinType, activityRequest} from "@/api/activity_api";
 
 const store = useStore()
 
+const roleOptions = [
+  {label: "会长", value: "会长"},
+  {label: "成员", value: "成员"},
+]
 
 let columns = [
   {title: 'id', dataIndex: 'user_id'},
@@ -92,16 +95,14 @@ const updateMemberForm = reactive<memberUpdateRequest>({
   posts: "",
 })
 
-function edit(record: RecordType<memberUpdateRequest>): void {
+function editmember(id: number): void {
+  updateMemberForm.id = id
   updateVisible.value = true
 }
 
 const formRef = ref()
 
 async function updateUserOk() {
-  let val = await formRef.value.validate()
-  if (val) return false
-
   let res = await memberUpdateApi(updateMemberForm)
   if (res.code) {
     Message.error(res.msg)
